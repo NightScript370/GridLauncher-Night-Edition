@@ -500,38 +500,28 @@ bool gamecardWasIn;
 bool gamecardStatusChanged;
 
 void handleMenuSelection() {
-//	logText("Handle menu selection");
 
 	menuEntry_s* me = getMenuEntry(&menu, menu.selectedEntry);
-//	logText(me->executablePath);
 
-	if(me && !strcmp(me->executablePath, REGIONFREE_PATH) && regionFreeAvailable && !netloader_boot)
-	{
+	if(me && !strcmp(me->executablePath, REGIONFREE_PATH) && regionFreeAvailable && !netloader_boot) {
 		regionFreeUpdate();
 
 		if (regionFreeGamecardIn) {
 			die = true;
 		}
-	}
-	else
-	{
+	} else {
 		// if appropriate, look for specified titles in list
-		if(me->descriptor.numTargetTitles)
-		{
-			// first refresh list (for sd/gamecard)
-//						updateTitleBrowser(&titleBrowser);
+		if(me->descriptor.numTargetTitles) {
 
 			// go through target title list in order so that first ones on list have priority
 			int i;
 			titleInfo_s* ret = NULL;
-			for(i=0; i<me->descriptor.numTargetTitles; i++)
-			{
+			for(i=0; i<me->descriptor.numTargetTitles; i++) {
 				ret = findTitleBrowser(&titleBrowser, me->descriptor.targetTitles[i].mediatype, me->descriptor.targetTitles[i].tid);
 				if(ret)break;
 			}
 
-			if(ret)
-			{
+			if(ret) {
 				bootSetTargetTitle(*ret);
 				die = true;
 				return;
@@ -541,16 +531,11 @@ void handleMenuSelection() {
 			// if appropriate, let user select target title
 			if(me->descriptor.selectTargetProcess) {
 				showSVDTTitleSelect();
-			}
-			else hbmenu_state = HBMENU_TITLETARGET_ERROR;
-		}
-
-		else
-		{
+			} else hbmenu_state = HBMENU_TITLETARGET_ERROR;
+		} else {
 			if(me->descriptor.selectTargetProcess) {
 				showSVDTTitleSelect();
-			}
-			else {
+			} else {
 				die = true;
 			}
 		}
@@ -564,8 +549,7 @@ void enterNetloader() {
 	else if(isNinjhax2()) hbmenu_state = HBMENU_NETLOADER_UNAVAILABLE_NINJHAX2;
 }
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
 	srvInit();
 	aptInit();
 	gfxInitDefault();
@@ -625,8 +609,7 @@ int main(int argc, char *argv[])
 
 		if (randomTheme) {
 			randomiseTheme();
-		}
-		else {
+		} else {
 			audio_stop();
 
 			loadSplashImages();
@@ -774,8 +757,7 @@ int main(int argc, char *argv[])
 
 		if (menuStatus == menuStatusOpenHomeMenuApps) {
 			showHomeMenuTitleSelect();
-		}
-		else if (menuStatus == menuStatusOpenTitleFiltering) {
+		} else if (menuStatus == menuStatusOpenTitleFiltering) {
 			showFilterTitleSelect();
 		}
 
@@ -784,14 +766,11 @@ int main(int argc, char *argv[])
 
 			FSUSER_IsSdmcDetected(&sdmcCurrent);
 
-			if(sdmcCurrent == 1 && (sdmcPrevious == 0 || sdmcPrevious < 0))
-			{
+			if(sdmcCurrent == 1 && (sdmcPrevious == 0 || sdmcPrevious < 0)) {
 				closeSDArchive();
 				openSDArchive();
 				scanHomebrewDirectory(&menu, currentFolder());
-			}
-			else if(sdmcCurrent < 1 && sdmcPrevious == 1)
-			{
+			} else if(sdmcCurrent < 1 && sdmcPrevious == 1) {
 				clearMenuEntries(&menu);
 			}
 			sdmcPrevious = sdmcCurrent;

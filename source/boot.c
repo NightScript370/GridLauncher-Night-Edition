@@ -86,22 +86,22 @@ bool isNinjhax2(void) {
 
 void bootSetTargetTitle(titleInfo_s info)
 {
-    target_title = info;
-    targetProcessId = -2;
-    custom_map = false;
+	target_title = info;
+	targetProcessId = -2;
+	custom_map = false;
 
-    static char path[256];
-    snprintf(path, 255, "sdmc:/mmap/%08X%08X.xml", (unsigned int)((target_title.title_id >> 32) & 0xffffffff), (unsigned int)(target_title.title_id & 0xffffffff));
-    memorymap_t* _mmap = loadMemoryMap(path);
-    if(_mmap)
-    {
-        _mmap->header.processHookTidLow = target_title.title_id & 0xffffffff;
-        _mmap->header.processHookTidHigh = (target_title.title_id >> 32) & 0xffffffff;
-        _mmap->header.mediatype = target_title.mediatype;
-        memcpy(mmap, _mmap, size_memmap(*_mmap));
-        free(_mmap);
-        custom_map = true;
-    }
+	static char path[256];
+	snprintf(path, 255, "sdmc:/mmap/%08X%08X.xml", (unsigned int)((target_title.title_id >> 32) & 0xffffffff), (unsigned int)(target_title.title_id & 0xffffffff));
+	memorymap_t* _mmap = loadMemoryMap(path);
+	if(_mmap)
+	{
+		_mmap->header.processHookTidLow = target_title.title_id & 0xffffffff;
+		_mmap->header.processHookTidHigh = (target_title.title_id >> 32) & 0xffffffff;
+		_mmap->header.mediatype = target_title.mediatype;
+		memcpy(mmap, _mmap, size_memmap(*_mmap));
+		free(_mmap);
+		custom_map = true;
+	}
 }
 
 int bootApp(char* executablePath, executableMetadata_s* em, char* arg)
@@ -157,8 +157,7 @@ int bootApp(char* executablePath, executableMetadata_s* em, char* arg)
 
 				str--;
 
-				if (str == (endarg - 1))
-				{
+				if (str == (endarg - 1)) {
 					if(*str == '\"' || *str == '\'')
 					{
 						*(str++) = 0;
@@ -181,8 +180,7 @@ int bootApp(char* executablePath, executableMetadata_s* em, char* arg)
 
 		}
 
-		if(netloader_boot)
-		{
+		if(netloader_boot) {
 			while (ptr < netloaded_commandline + netloaded_cmdlen)
 			{
 				int n = strlen(ptr);
@@ -202,8 +200,7 @@ int bootApp(char* executablePath, executableMetadata_s* em, char* arg)
 	fsExit();
 
 	// figure out the preferred way of running the 3dsx
-	if(!hbInit())
-	{
+	if(!hbInit()) {
 		// ninjhax 1.x !
 		// grab bootloader addresses
 		HB_GetBootloaderAddresses((void**)&callBootloader_1x, (void**)&setArgs_1x);
@@ -214,15 +211,13 @@ int bootApp(char* executablePath, executableMetadata_s* em, char* arg)
 
 		// override return address to homebrew booting code
 		__system_retAddr = launchFile_1x;
-	}else{
+	} else {
 		// ninjhax 2.0+
 		// override return address to homebrew booting code
 		__system_retAddr = launchFile_2x;
 
-		if(em)
-		{
-			if(em->scanned && targetProcessId == -1)
-			{
+		if(em) {
+			if(em->scanned && targetProcessId == -1) {
 				// this is a really shitty implementation of what we should be doing
 				// i'm really too lazy to do any better right now, but a good solution will come
 				// (some day)

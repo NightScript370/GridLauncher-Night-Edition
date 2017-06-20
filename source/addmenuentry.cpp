@@ -52,18 +52,11 @@ void addMenuEntries(char paths[1024][1024], int totalEntries, int pathLength, me
 
 		int n = strlen(path);
 
-		//File is a .3dsx
-		if(n>5 && !strcmp(".3dsx", &path[n-5])){
+		if (n>5 && !strcmp(".3dsx", &path[n-5])) { //File is a .3dsx
 			addExecutableToMenu(m, path);
-		}
-
-		//File is a shortcut
-		else if(n>4 && !strcmp(".xml", &path[n-4])){
+		} else if(n>4 && !strcmp(".xml", &path[n-4])) { //File is a shortcut
 			addShortcutToMenu(m, path);
-		}
-
-		//File is a directory
-		else {
+		} else { //File is a directory 
 			addDirectoryToMenu(m, path);
 		}
 	}

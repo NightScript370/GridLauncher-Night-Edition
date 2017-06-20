@@ -52,7 +52,6 @@ int drawAlert(char * title, char * body, u8 * image, int numButtons,  char butto
 	rgbColour * dark = darkTextColour();
 
 	MADrawTextWrap(GFX_TOP, GFX_LEFT, topOffset, leftOffset, body, &font, dark->r, dark->g, dark->b, totalWidthForText-(2*leftOffset), 0);
-	//MADrawTextWrap(GFX_TOP, GFX_LEFT, topOffset, leftOffset, body, &font, dark->r, dark->g, dark->b, totalWidthForText, 0);
 
 
 	/*

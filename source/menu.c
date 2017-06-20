@@ -54,7 +54,6 @@ int menuStatusSettings = 1;
 int menuStatusHelp = 2;
 int menuStatusFolders = 3;
 int menuStatusFolderChanged = 4;
-//int menuStatusFoldersHelp = 5;
 int menuStatusTitleBrowser = 6;
 int menuStatusOpenHomeMenuApps = 7;
 int menuStatusHomeMenuApps = 8;
@@ -80,7 +79,6 @@ int menuStatusHBAppOptions = 24;
 int menuStatusHBAppDeleteConfirmation = 25;
 
 bool killTitleBrowser = false;
-//bool thirdRowVisible = false;
 bool dPadNavigation = true;
 bool animatedGrids = true;
 
@@ -97,20 +95,14 @@ bool toolbarNeedsUpdate = true;
 
 int menuStatus = 0;
 
-//int previousSelectedEntry = -1;
 int dPadSelectedToolbarButton = -1;
 
 menuEntry_s regionfreeEntry;
 menu_s menu;
 menu_s * bootOptionsMenu;
 
-//int rowPosition = 0;
-//int colPosition = 0;
-//int pagePosition = 0;
-
 int totalCols = 4;
 int totalRows = 2;
-//int totalPages = 0;
 
 int touchX = 0;
 int touchY = 0;
@@ -172,12 +164,6 @@ void menuRegionFreeToggled() {
 
 bool menuReloadRequired = false;
 
-//void toggleThirdRow() {
-//	totalRows = (totalRows == 3) ? 2 : 3;
-//	thirdRowVisible = (totalRows == 3);
-//	updateMenuIconPositions(&settingsMenu);
-//}
-
 void addToolbarButton(int buttonType, void (*callback)(), int tag) {
 	button aButton;
 	btnSetButtonType(&aButton, buttonType);
@@ -221,32 +207,25 @@ void handleMenuTopLeftActions(int source) {
 		playSelectSound = true;
 		playBackSound = false;
 		showSettings();
-	}
-	else if (menuStatus == menuStatusSettings) {
+	} else if (menuStatus == menuStatusSettings) {
 		quitSettings(&menu);
-	}
-	else if (menuStatus == menuStatusTitleBrowser || menuStatus == menuStatusHomeMenuApps) {
+	} else if (menuStatus == menuStatusTitleBrowser || menuStatus == menuStatusHomeMenuApps) {
 		killTitleBrowser = true;
 		if (titlemenuIsUpdating) {
 			pauseTitleLoading();
 		}
-	}
-	else if (menuStatus == menuStatusFolders) {
-//		if (source == menuTopLeftActionSourceTopLeft) {
-			checkReturnToGrid(&menu);
-//		}
+	} else if (menuStatus == menuStatusFolders) {
+		checkReturnToGrid(&menu);
 
 		setMenuStatus(menuStatusIcons);
 
 		if (animatedGrids) {
 			startTransition(transitionDirectionUp, foldersMenu.pagePosition, &foldersMenu);
 		}
-	}
-	else if (menuStatus == menuStatusTitleFiltering) {
+	} else if (menuStatus == menuStatusTitleFiltering) {
 		if (titlemenuIsUpdating) {
 			cancelTitleLoading();
-		}
-		else {
+		} else {
 			saveIgnoredTitleIDs();
 		}
 
@@ -257,60 +236,49 @@ void handleMenuTopLeftActions(int source) {
 		if (animatedGrids) {
 			startTransition(transitionDirectionUp, titleMenu.pagePosition, &titleMenu);
 		}
-	}
-	else if (menuStatus == menuStatusColourAdjust) {
+	} else if (menuStatus == menuStatusColourAdjust) {
 		saveColour(settingsColour, false);
 		setMenuStatus(menuStatusColourSettings);
-	}
-	else if (menuStatus == menuStatusColourSettings) {
+	} else if (menuStatus == menuStatusColourSettings) {
 		alphaImagesDrawn = false;
 		setMenuStatus(menuStatusThemeSettings);
 
 		if (animatedGrids) {
 			startTransition(transitionDirectionUp, colourSelectMenu.pagePosition, &colourSelectMenu);
 		}
-	}
-	else if (menuStatus == menuStatusHelp) {
+	} else if (menuStatus == menuStatusHelp) {
 		handleHelpBackButton();
-	}
-	else if (menuStatus == menuStatusGridSettings) {
+	} else if (menuStatus == menuStatusGridSettings) {
 		setMenuStatus(menuStatusSettings);
 
 		if (animatedGrids) {
 			startTransition(transitionDirectionUp, gridSettingsMenu.pagePosition, &gridSettingsMenu);
 		}
-	}
-	else if (menuStatus == menuStatusTranslucencyTop || menuStatus == menuStatusTranslucencyBottom || menuStatus == menuStatusPanelSettingsTop || menuStatus == menuStatusPanelSettingsBottom) {
+	} else if (menuStatus == menuStatusTranslucencyTop || menuStatus == menuStatusTranslucencyBottom || menuStatus == menuStatusPanelSettingsTop || menuStatus == menuStatusPanelSettingsBottom) {
 		setMenuStatus(menuStatusThemeSettings);
-	}
-	else if (menuStatus == menuStatusThemeSelect) {
+	} else if (menuStatus == menuStatusThemeSelect) {
 		setMenuStatus(menuStatusThemeSettings);
 
 		if (animatedGrids) {
 			startTransition(transitionDirectionUp, themesMenu.pagePosition, &themesMenu);
 		}
-	}
-	else if (menuStatus == menuStatusThemeSettings) {
+	} else if (menuStatus == menuStatusThemeSettings) {
 		setMenuStatus(menuStatusSettings);
 
 		if (animatedGrids) {
 			startTransition(transitionDirectionUp, themeSettingsMenu.pagePosition, &themeSettingsMenu);
 		}
-	}
-	else if (menuStatus == menuStatusWaterSettings) {
+	} else if (menuStatus == menuStatusWaterSettings) {
 		setMenuStatus(menuStatusThemeSettings);
 
 		if (animatedGrids) {
 			startTransition(transitionDirectionUp, waterMenu.pagePosition, &waterMenu);
 		}
-	}
-	else if (menuStatus == menuStatusBootOptions) {
+	} else if (menuStatus == menuStatusBootOptions) {
 		setMenuStatus(menuStatusIcons);
-	}
-	else if (menuStatus == menuStatusHBAppOptions) {
+	} else if (menuStatus == menuStatusHBAppOptions) {
 		setMenuStatus(menuStatusIcons);
-	}
-	else {
+	} else {
 		playBackSound = false;
 	}
 
@@ -327,14 +295,11 @@ void toolbarTopRightAction() {
 
 	if (menuStatus == menuStatusIcons) {
 		showHelp();
-	}
-	else if (menuStatus == menuStatusFolders) {
+	} else if (menuStatus == menuStatusFolders) {
 		showHelpWithForcedText(foldersHelpTitle, foldersHelpBody);
-	}
-	else if (menuStatus == menuStatusThemeSelect) {
+	} else if (menuStatus == menuStatusThemeSelect) {
 		showHelpWithForcedText(themesHelpTitle, themesHelpBody);
-	}
-	else {
+	} else {
 		playSelectSound = false;
 	}
 
@@ -345,17 +310,12 @@ void toolbarBottomLeftAction() {
 	bool playSelectSound = true;
 
 	if (menuStatus == menuStatusIcons) {
-//		if (!titleMenuInitialLoadDone && !titlemenuIsUpdating) {
-//			updateTitleMenu(&titleBrowser, &titleMenu, "Loading titles", true, false);
-//		}
-//
 		if (titleLoadPaused) {
 			resumeTitleLoading();
 		}
 
 		setMenuStatus(menuStatusOpenHomeMenuApps);
-	}
-	else {
+	} else {
 		playSelectSound = false;
 	}
 
@@ -367,8 +327,7 @@ void toolbarBottomRightAction() {
 
 	if (menuStatus == menuStatusIcons) {
 		showFolders();
-	}
-	else {
+	} else {
 		playSelectSound = false;
 	}
 
@@ -405,20 +364,16 @@ void loadThemeConfig() {
 	logoType = getConfigIntForKey("logoType", logoTypeDefault, configTypeTheme);
 }
 
-void initMenu(menu_s* m)
-{
+void initMenu(menu_s* m) {
 	if(!m) {
 		return;
 	}
 
-	/*
-	 Initial menu status should always be to show the icons
-	 */
+
+//	Initial menu status should always be to show the icons
 	setMenuStatus(menuStatusIcons);
 
-	/*
-	 Configure the toolbar buttons and page select buttons
-	 */
+//	Configure the toolbar buttons and page select buttons
 	addToolbarButton(btnButtonTypeToolbarLeft, &toolbarTopLeftAction, buttonTagTopLeft);
 	addToolbarButton(btnButtonTypeToolbarRight, &toolbarTopRightAction, buttonTagTopRight);
 	addToolbarButton(btnButtonTypeToolbarBottomRight, &toolbarBottomRightAction, buttonTagBottomRight);
@@ -452,16 +407,13 @@ void initMenu(menu_s* m)
 	fakeButton.visible = true;
 	fakeButton.highlighted = true;
 
-	/*
-	 If the region free launcher is available, load the setting which determines whether it should be shown in the grid
-	 */
+//	If the region free launcher is available, load the setting which determines whether it should be shown in the grid
 	if (regionFreeAvailable) {
 		showRegionFree = getConfigBoolForKey("showRegionFree", regionFreeAvailable, configTypeMain);
 	}
 
-	/*
-	 Load other settings
-	 */
+
+//	Load other settings
 	sortAlpha = getConfigBoolForKey("sortAlpha", false, configTypeMain);
 	totalRows = getConfigIntForKey("totalRows", 3, configTypeMain);
 	clock24 = getConfigBoolForKey("clock24", false, configTypeMain);
@@ -469,7 +421,6 @@ void initMenu(menu_s* m)
 	waterAnimated = getConfigBoolForKey("animatedWater", true, configTypeMain);
 	showAppBackgrounds = getConfigBoolForKey("showAppBackgrounds", true, configTypeMain);
 	wrapScrolling = getConfigBoolForKey("wrapScrolling", true, configTypeMain);
-//	keysExciteWater = getConfigBoolForKey("keysExciteWater", true, configTypeMain);
 	dPadNavigation = getConfigBoolForKey("dPadNavigation", true, configTypeMain);
 	randomiseThemeOnWake = getConfigBoolForKey("randomiseThemeOnWake", false, configTypeMain);
 	animatedGrids = getConfigBoolForKey("animatedGrids", true, configTypeMain);
@@ -479,12 +430,7 @@ void initMenu(menu_s* m)
 
 	loadThemeConfig();
 
-	//Used for ticking the icon in settings
-//	thirdRowVisible = (totalRows == 3);
-
-	/*
-	 Menu init
-	 */
+//	Menu init
 	m->entries=NULL;
 	m->numEntries=0;
 	m->selectedEntry=0;//indexOfFirstVisibleMenuEntry(m);
@@ -495,10 +441,7 @@ void initMenu(menu_s* m)
 	m->scrollTarget=0;
 	m->atEquilibrium=false;
 
-
-	/*
-	 Add the region free entry to the menu if applicable
-	 */
+//	Add the region free entry to the menu if applicable
 	if(regionFreeAvailable) {
 		regionfreeEntry.isRegionFreeEntry = true;
 		regionfreeEntry.isShortcut = false;
@@ -509,16 +452,6 @@ void initMenu(menu_s* m)
 		addMenuEntryCopy(m, &regionfreeEntry);
 	}
 }
-
-//static inline s16 getEntryLocationPx(menu_s* m, int px)
-//{
-//	return 240-px+fptToInt(m->scrollLocation);
-//}
-//
-//static inline s16 getEntryLocation(menu_s* m, int n)
-//{
-//	return getEntryLocationPx(m, (n+1)*ENTRY_WIDTH);
-//}
 
 u8 bottomBar[18*320*4];
 
@@ -532,9 +465,6 @@ void drawBottomStatusBar(char* title) {
 	}
 
 	gfxDrawSpriteAlphaBlend(GFX_BOTTOM, GFX_LEFT, bottomBar, height, 320, 240-height, 0);
-
-
-//	gfxDrawRectangle(GFX_BOTTOM, GFX_LEFT, (u8[]){tintCol->r, tintCol->g, tintCol->b}, 240-height, 0, height, 400);
 
 	rgbColour * light = lightTextColour();
 
@@ -555,11 +485,9 @@ void drawBottomStatusBar(char* title) {
 		rightToolbarButton->visible = true;
 		bottomRightButton->visible = true;
 		bottomLeftButton->visible = true;
-	}
-	else if (menuStatus == menuStatusFolders || menuStatus == menuStatusThemeSelect) {
+	} else if (menuStatus == menuStatusFolders || menuStatus == menuStatusThemeSelect) {
 		rightToolbarButton->visible = true;
-	}
-	else if (menuStatus == menuStatusHomeMenuApps || menuStatus == menuStatusTitleBrowser || menuStatus == menuStatusTitleFiltering) {
+	} else if (menuStatus == menuStatusHomeMenuApps || menuStatus == menuStatusTitleBrowser || menuStatus == menuStatusTitleFiltering) {
 		if (titlemenuIsUpdating) {
 			bottomLeftButton->visible = true;
 		}
@@ -573,15 +501,12 @@ void drawBottomStatusBar(char* title) {
 		buttonIconLeft = btnButtonIconSpanner;
 		buttonIconRight = btnButtonIconQuestionMark;
 		buttonIconBottomLeft = btnButtonIconHome;
-	}
-	else if (menuStatus == menuStatusHelp || menuStatus == menuStatusSettings || menuStatus == menuStatusTitleBrowser || menuStatus == menuStatusHomeMenuApps) {
+	} else if (menuStatus == menuStatusHelp || menuStatus == menuStatusSettings || menuStatus == menuStatusTitleBrowser || menuStatus == menuStatusHomeMenuApps) {
 		buttonIconLeft = btnButtonIconBackArrow;
-	}
-	else if (menuStatus == menuStatusFolders || menuStatus == menuStatusThemeSelect) {
+	} else if (menuStatus == menuStatusFolders || menuStatus == menuStatusThemeSelect) {
 		buttonIconLeft = btnButtonIconBackArrow;
 		buttonIconRight = btnButtonIconQuestionMark;
-	}
-	else if (menuStatus == menuStatusColourSettings || menuStatus == menuStatusColourAdjust || menuStatus == menuStatusTranslucencyTop || menuStatus == menuStatusTranslucencyBottom || menuStatus == menuStatusPanelSettingsTop || menuStatus == menuStatusPanelSettingsBottom || menuStatus == menuStatusWaterSettings || menuStatus == menuStatusThemeSettings || menuStatus == menuStatusGridSettings || menuStatus == menuStatusTitleFiltering) {
+	} else if (menuStatus == menuStatusColourSettings || menuStatus == menuStatusColourAdjust || menuStatus == menuStatusTranslucencyTop || menuStatus == menuStatusTranslucencyBottom || menuStatus == menuStatusPanelSettingsTop || menuStatus == menuStatusPanelSettingsBottom || menuStatus == menuStatusWaterSettings || menuStatus == menuStatusThemeSettings || menuStatus == menuStatusGridSettings || menuStatus == menuStatusTitleFiltering) {
 		buttonIconLeft = btnButtonIconBackArrow;
 	}
 
@@ -600,12 +525,9 @@ int * coordsForMenuEntry(int row, int col, menu_s *m) {
 	int yOffset = 33;
 	int gap = 15;
 
-//	int totalRows = totalRowsForMenu(m);
-
 	if (totalRows == 3) {
 		xOffset += 31;
-	}
-	else if (totalRows == 1) {
+	} else if (totalRows == 1) {
 		xOffset -= 41;
 	}
 
@@ -624,7 +546,6 @@ u8 pageUnselected[13*13*4];
 u8 cartBackground[59*59*4];
 u8 cartBackgroundSelected[59*59*4];
 u8 appBackgroundSelected[56*56*4];
-//u8 tick [48*48*4];
 bool alphaImagesDrawn = false;
 
 u8 pageControlPanelLeft[81*36*4];
@@ -643,9 +564,8 @@ void drawGridWithPage(menu_s* m, int page, int pageYOffset, int pageXOffset, boo
 	rgbColour * inactiveCol = inactiveColour();
 	rgbColour * tintCol = tintColour();
 
-	/*
-	 Prepare translucent images for drawing
-	 */
+
+//	Prepare translucent images for drawing
 	if (!alphaImagesDrawn) {
 		MAGFXImageWithRGBAndAlphaMask(inactiveCol->r, inactiveCol->g, inactiveCol->b, (u8*)appbackgroundalphamask_bin, appBackground, 56, 56);
 		MAGFXImageWithRGBAndAlphaMask(inactiveCol->r, inactiveCol->g, inactiveCol->b, (u8*)pageiconalphamask_bin, pageUnselected, 13, 13);
@@ -715,8 +635,7 @@ void drawGridWithPage(menu_s* m, int page, int pageYOffset, int pageXOffset, boo
 
 			if (themeImageExists(themeImageAppBackground)) {
 				drawThemeImage(themeImageAppBackground, GFX_BOTTOM, x+3, y+4);
-			}
-			else {
+			} else {
 				gfxDrawSpriteAlphaBlendFade(GFX_BOTTOM, GFX_LEFT, appBackground, 56, 56, x+3, y+4, translucencyAppBackgrounds);
 			}
 
@@ -726,19 +645,13 @@ void drawGridWithPage(menu_s* m, int page, int pageYOffset, int pageXOffset, boo
 				r--;
 			}
 
-			if (r<0) {
-				//				break;
-			}
-
 		}
 	}
 
 
 	if (!gridOnly) {
 
-		/*
-		 Draw bottom screen paging arrows and page indicators
-		 */
+//		Draw bottom screen paging arrows and page indicators
 		if (m->totalPages > 1) {
 			if (page > 0 || wrapScrolling) {
 				gfxDrawSpriteAlphaBlendFade(GFX_BOTTOM, GFX_LEFT, (u8*)pageControlPanelLeft, 81, 36, 80, 0, panelAlphaBottom);
@@ -790,8 +703,7 @@ void drawGrid(menu_s* m) {
 		if (transitionDirection == transitionDirectionLeft || transitionDirection == transitionDirectionRight) {
 			transitionOutPixelY = transitionOutPixel;
 			transitionInPixelY = transitionInPixel;
-		}
-		else if (transitionDirection == transitionDirectionUp || transitionDirection == transitionDirectionDown) {
+		} else if (transitionDirection == transitionDirectionUp || transitionDirection == transitionDirectionDown) {
 			transitionOutPixelX = transitionOutPixel;
 			transitionInPixelX = transitionInPixel;
 		}
@@ -810,14 +722,12 @@ void drawGrid(menu_s* m) {
 		if (transitionInPixel == 0) {
 			transitionFromPage = -1;
 		}
-	}
-	else {
+	} else {
 		drawGridWithPage(m, m->pagePosition, 0, 0, false);
 	}
 }
 
-void drawMenu(menu_s* m)
-{
+void drawMenu(menu_s* m) {
 	if(!m) {
 		return;
 	}
@@ -837,8 +747,7 @@ void drawMenu(menu_s* m)
 			if (transitionFromPage > -1) {
 				drawGrid(NULL);
 			}
-		}
-		else {
+		} else {
 			drawGrid(m);
 		}
 
@@ -857,11 +766,9 @@ void updateMenuIconPositions(menu_s* m) {
 	int currentPage = 0;
 	m->totalPages = 0;
 	int i=0;
-//	int totalRows = m->totalRows;
 
 	menuEntry_s* me=m->entries;
-	while(me)
-	{
+	while(me) {
 		if (!me->hidden) {
 			me->row = currentRow;
 			me->col = currentColumn;
@@ -891,8 +798,7 @@ void updateMenuIconPositions(menu_s* m) {
 	}
 }
 
-void addMenuEntry(menu_s* m, menuEntry_s* me)
-{
+void addMenuEntry(menu_s* m, menuEntry_s* me) {
 	if(!m || !me)return;
 
 	// add to the end of the list
@@ -903,8 +809,7 @@ void addMenuEntry(menu_s* m, menuEntry_s* me)
 	m->numEntries++;
 }
 
-void addMenuEntryCopy(menu_s* m, menuEntry_s* me)
-{
+void addMenuEntryCopy(menu_s* m, menuEntry_s* me) {
 	if(!m || !me)return;
 
 	menuEntry_s* me2=malloc(sizeof(menuEntry_s));
@@ -915,23 +820,20 @@ void addMenuEntryCopy(menu_s* m, menuEntry_s* me)
 	addMenuEntry(m, me2);
 }
 
-void freeMenuEntry(menuEntry_s* me)
-{
+void freeMenuEntry(menuEntry_s* me) {
 	if(!me)return;
 
 	freeDescriptor(&me->descriptor);
 }
 
-void clearMenuEntries(menu_s* m)
-{
+void clearMenuEntries(menu_s* m) {
 	if(!m)return;
 
 	m->selectedEntry=0;//indexOfFirstVisibleMenuEntry(m);
 
 	menuEntry_s* me = m->entries;
 	menuEntry_s* temp = NULL;
-	while(me)
-	{
+	while(me) {
 		temp=me->next;
 		me->next = NULL;
 		freeMenuEntry(me);
@@ -942,15 +844,13 @@ void clearMenuEntries(menu_s* m)
 	m->numEntries = 0;
 	m->entries = NULL;
 
-	if(regionFreeAvailable)
-	{
+	if(regionFreeAvailable) {
 		// should always be available
 		addMenuEntryCopy(m, &regionfreeEntry);
 	}
 }
 
-void createMenuEntry(menu_s* m, char* execPath, char* name, char* description, char* author, u8* iconData)
-{
+void createMenuEntry(menu_s* m, char* execPath, char* name, char* description, char* author, u8* iconData) {
 	if(!m || !name || !description || !iconData)return;
 
 	menuEntry_s* me=malloc(sizeof(menuEntry_s));
@@ -961,8 +861,7 @@ void createMenuEntry(menu_s* m, char* execPath, char* name, char* description, c
 	addMenuEntry(m, me);
 }
 
-menuEntry_s* getMenuEntry(menu_s* m, u16 n)
-{
+menuEntry_s* getMenuEntry(menu_s* m, u16 n) {
 	if(!m || n>=m->numEntries)return NULL;
 	menuEntry_s* me=m->entries;
 	while(n && me){me=me->next; n--;}
@@ -997,16 +896,13 @@ void startTransition(int direction, int fromPage, menu_s* fromMenu) {
 	if (direction == transitionDirectionLeft) {
 		transitionInPixel = 320;
 		transitionSpeed = absTransitionSpeed;
-	}
-	else if (direction == transitionDirectionRight) {
+	} else if (direction == transitionDirectionRight) {
 		transitionInPixel = -320;
 		transitionSpeed = -absTransitionSpeed;
-	}
-	else if (direction == transitionDirectionDown) {
+	} else if (direction == transitionDirectionDown) {
 		transitionInPixel = 240;
 		transitionSpeed = absTransitionSpeed;
-	}
-	else if (direction == transitionDirectionUp) {
+	} else if (direction == transitionDirectionUp) {
 		transitionInPixel = -240;
 		transitionSpeed = -absTransitionSpeed;
 	}
@@ -1031,13 +927,11 @@ void checkGotoNextPage(menu_s* m, s8 *move, bool preserveCursorPosition) {
 		if (wrapScrolling) {
 			m->pagePosition = 0;
 			pageChanged = true;
-		}
-		else {
+		} else {
 			m->pagePosition = m->pagePosition - 1;
 			pageChanged = false;
 		}
-	}
-	else {
+	} else {
 		pageChanged = true;
 	}
 
@@ -1049,16 +943,13 @@ void checkGotoNextPage(menu_s* m, s8 *move, bool preserveCursorPosition) {
 		}
 
 		if (dPadSelectedToolbarButton == -1) {
-//			btnListUnHighlight(&toolbarButtons);
-//			dPadSelectedToolbarButton = -1;
 
 			if (preserveCursorPosition) {
 				int firstIndex = indexOfFirstVisibleMenuEntryOnPage(m->pagePosition, m);
 				int indexOffset = (m->rowPosition * totalCols) + m->colPosition;
 				int newIndex = firstIndex + indexOffset;
 				*move += (newIndex - m->selectedEntry);
-			}
-			else {
+			} else {
 				int oldRowPosition = m->rowPosition;
 				m->rowPosition = 0;
 				m->colPosition = 0;
@@ -1089,13 +980,11 @@ void checkGotoPreviousPage(menu_s* m, s8 *move, bool preserveCursorPosition) {
 		if (wrapScrolling) {
 			m->pagePosition = (m->totalPages - 1);
 			pageChanged = true;
-		}
-		else {
+		} else {
 			m->pagePosition = m->pagePosition + 1;
 			pageChanged = false;
 		}
-	}
-	else {
+	} else {
 		pageChanged = true;
 	}
 
@@ -1107,16 +996,13 @@ void checkGotoPreviousPage(menu_s* m, s8 *move, bool preserveCursorPosition) {
 		}
 
 		if (dPadSelectedToolbarButton == -1) {
-			//btnListUnHighlight(&toolbarButtons);
-			//dPadSelectedToolbarButton = -1;
 
 			if (preserveCursorPosition) {
 				int firstIndex = indexOfFirstVisibleMenuEntryOnPage(m->pagePosition, m);
 				int indexOffset = (m->rowPosition * totalCols) + m->colPosition;
 				int newIndex = firstIndex + indexOffset;
 				*move += (newIndex - m->selectedEntry);
-			}
-			else {
+			} else {
 				//Store the old row which was selected
 				int oldRowPosition = m->rowPosition;
 
@@ -1206,7 +1092,6 @@ void quitSettings(menu_s* m) {
 	setConfigBool("animatedWater", waterAnimated, configTypeMain);
 	setConfigBool("showAppBackgrounds", showAppBackgrounds, configTypeMain);
 	setConfigBool("wrapScrolling", wrapScrolling, configTypeMain);
-//	setConfigBool("keysExciteWater", keysExciteWater, configTypeMain);
 	setConfigBool("dPadNavigation", dPadNavigation, configTypeMain);
 	setConfigBool("randomTheme", randomTheme, configTypeMain);
 	setConfigBool("randomiseThemeOnWake", randomiseThemeOnWake, configTypeMain);
@@ -1280,8 +1165,7 @@ menuEntry_s * updateMenuTicks(menu_s* m, char * selectedString, bool useExeecuta
 
 			me=me->next;
 		}
-	}
-	else {
+	} else {
 		while(me) {
 			if ((!useExeecutablePath &&  strcmp(me->name, selectedString) == 0) || (useExeecutablePath &&  strcmp(me->executablePath, selectedString) == 0)) {
 				me->showTick = &trueBool;
@@ -1295,8 +1179,6 @@ menuEntry_s * updateMenuTicks(menu_s* m, char * selectedString, bool useExeecuta
 		}
 	}
 
-	//	free(cfn);
-
 	return tickedItem;
 }
 
@@ -1309,8 +1191,7 @@ void showFolders() {
 		menuEntry_s * menuEntry3DSFolder = getMenuEntry(&foldersMenu, 0);
 		menuEntry3DSFolder->hidden = false;
 		foldersMenu.selectedEntry = 0;
-	}
-	else {
+	} else {
 		char * cfn = currentFolderName();
 		menuEntry_s *tickedEntry = updateMenuTicks(&foldersMenu, cfn, false);
 		free(cfn);
@@ -1320,23 +1201,16 @@ void showFolders() {
 	}
 
 	setPositionsToCurrentMenuSelection(&foldersMenu);
-	//gotoFirstIcon(&foldersMenu);
-//	checkReturnToGrid(&foldersMenu);
 	setMenuStatus(menuStatusFolders);
 
 	if (animatedGrids) {
 		if (menu.numEntries > 1) {
 			startTransition(transitionDirectionDown, menu.pagePosition, &menu);
-		}
-		else {
+		} else {
 			startTransition(transitionDirectionDown, 0, NULL);
 		}
 	}
 }
-
-//void showHomeMenuApps() {
-//	setMenuStatus(menuStatusOpenHomeMenuApps);
-//}
 
 void keyBAction() {
 	handleMenuTopLeftActions(menuTopLeftActionSourceKeyB);
@@ -1347,14 +1221,11 @@ void switchToolbarButtons() {
 
 	if (dPadSelectedToolbarButton == 0) {
 		newSelectedToolbarButton = 1;
-	}
-	else if (dPadSelectedToolbarButton == 1) {
+	} else if (dPadSelectedToolbarButton == 1) {
 		newSelectedToolbarButton = 0;
-	}
-	else if (dPadSelectedToolbarButton == 2) {
+	} else if (dPadSelectedToolbarButton == 2) {
 		newSelectedToolbarButton = 3;
-	}
-	else if (dPadSelectedToolbarButton == 3) {
+	} else if (dPadSelectedToolbarButton == 3) {
 		newSelectedToolbarButton = 2;
 	}
 
@@ -1367,14 +1238,11 @@ void switchToolbarButtons() {
 void handleDPadToolbarActions(menu_s* m) {
 	if (dPadSelectedToolbarButton == 0) {
 		toolbarTopLeftAction();
-	}
-	else if (dPadSelectedToolbarButton == 1) {
+	} else if (dPadSelectedToolbarButton == 1) {
 		toolbarTopRightAction();
-	}
-	else if (dPadSelectedToolbarButton == 2) {
+	} else if (dPadSelectedToolbarButton == 2) {
 		toolbarBottomRightAction();
-	}
-	else if (dPadSelectedToolbarButton == 3) {
+	} else if (dPadSelectedToolbarButton == 3) {
 		toolbarBottomLeftAction();
 	}
 }
@@ -1479,8 +1347,7 @@ void checkPlaySelectSound(menu_s *m) {
 	if (me->isRegionFreeEntry) {
 		if (regionFreeGamecardIn)
 			playSelectSound = true;
-	}
-	else {
+	} else {
 		playSelectSound = true;
 	}
 
@@ -1503,11 +1370,8 @@ bool updateGrid(menu_s* m) {
 	}
 
 	s8 move=0;
-	//circlePosition cstick;
 	touchPosition touch;
-	//hidCstickRead(&cstick);
 	hidTouchRead(&touch);
-	//cstick.dy=(abs(cstick.dy)<5)?0:cstick.dy;
 
 	touchX = touch.px;
 	touchY = touch.py;
@@ -1672,9 +1536,6 @@ bool updateGrid(menu_s* m) {
 				if (me->title_id > 0 || me->isRegionFreeEntry || me->isShortcut) {
 					setMenuStatus(menuStatusBootOptions);
 				}
-				else {
-//					setMenuStatus(menuStatusHBAppOptions);
-				}
 			}
 		}
 	}
@@ -1697,9 +1558,7 @@ bool updateGrid(menu_s* m) {
 			if(m->selectedEntry==i) {
 				checkPlaySelectSound(m);
 				return true;
-			}
-
-			else {
+			} else {
 				audioPlay(&themeSoundMove, false);
 				m->selectedEntry=i;
 				m->rowPosition = newRow;
@@ -1707,61 +1566,29 @@ bool updateGrid(menu_s* m) {
 
 				startBlockingTouches();
 			}
-		}
-		else {
+		} else {
 			if (btnTouchWithin(touchX, touchY, &pageArrowLeft)) {
 				checkGotoPreviousPage(m, &move, true);
-			}
-			else if (btnTouchWithin(touchX, touchY, &pageArrowRight)) {
+			} else if (btnTouchWithin(touchX, touchY, &pageArrowRight)) {
 				checkGotoNextPage(m, &move, true);
 			}
 
 			btnListCheckHighlight(&toolbarButtons, touchX, touchY);
 		}
-	}
-	else if(hidKeysHeld()&KEY_TOUCH && !touchesAreBlocked){
-
+	} else if(hidKeysHeld()&KEY_TOUCH && !touchesAreBlocked){
 		btnListCheckHighlight(&toolbarButtons, touchX, touchY);
-
-//		if (menuStatus == menuStatusIcons || menuStatus == menuStatusHomeMenuApps) {
-//			u64 currentTime = osGetTime();
-//			u64 timeDiff = (currentTime - m->touchDownTime)/1000;
-//
-//			if (timeDiff > 1) {
-//				int i=0;
-//				bool gotAppMatch = touchWithinMenuEntryIcon(m, &(m->previousTouch), &i, NULL, NULL);
-//
-//				if (gotAppMatch) {
-//					bootOptionsMenu = m;
-//					alertSelectedButton = 0;
-//					setMenuStatus(menuStatusBootOptions);
-//				}
-//			}
-//		}
-	}
-	else if (hidKeysUp()&KEY_TOUCH && !touchesAreBlocked) {
+	} else if (hidKeysUp()&KEY_TOUCH && !touchesAreBlocked) {
 		btnListCheckHighlight(&toolbarButtons, touchX, touchY);
 		btnListCheckRunCallback(&toolbarButtons, m->previousTouch.px, m->previousTouch.py);
-
-//		int i=0;
-//
-//		bool gotAppMatch = touchWithinMenuEntryIcon(m, &(m->previousTouch), &i, NULL, NULL);
-//
-//		if (gotAppMatch && m->selectedEntry==i) {
-//			audioPlay(&themeSoundSelect, false);
-//			return true;
-//		}
 	}
 
 	if (move + m->selectedEntry < 0) {
 		m->selectedEntry=indexOfFirstVisibleMenuEntry(m);
 		setPositionsToCurrentMenuSelection(m);
-	}
-	else if (move + m->selectedEntry >= m->numEntries) {
+	} else if (move + m->selectedEntry >= m->numEntries) {
 		m->selectedEntry=m->numEntries-1;
 		setPositionsToCurrentMenuSelection(m);
-	}
-	else {
+	} else {
 		m->selectedEntry+=move;
 	}
 
@@ -1802,23 +1629,6 @@ bool updateGrid(menu_s* m) {
 	return false;
 }
 
-//void handleGridButtonTouches(menu_s *m, buttonList *aButtonList) {
-//	touchPosition touch;
-//	hidTouchRead(&touch);
-//	touchX = touch.px;
-//	touchY = touch.py;
-//
-//	if (hidKeysDown()&KEY_TOUCH || hidKeysHeld()&KEY_TOUCH) {
-//		btnListCheckHighlight(aButtonList, touchX, touchY);
-//		m->previousTouch.px = touchX;
-//		m->previousTouch.py = touchY;
-//	}
-//	else if (hidKeysUp()&KEY_TOUCH) {
-//		btnListCheckHighlight(aButtonList, touchX, touchY);
-//		btnListCheckRunCallback(aButtonList, m->previousTouch.px, m->previousTouch.py);
-//	}
-//}
-
 #warning Try to get rid of this if possible
 void handleNonGridToolbarNavigation() {
 	btnListUnHighlight(&toolbarButtons);
@@ -1836,8 +1646,7 @@ void handleNonGridToolbarNavigation() {
 	if (hidKeysDown()&KEY_LEFT || hidKeysDown()&KEY_RIGHT) {
 		if (dPadSelectedToolbarButton == 0 && toolbarButtons.buttons[1]->visible == true) {
 			dPadSelectedToolbarButton = 1;
-		}
-		else if (dPadSelectedToolbarButton == 1 && toolbarButtons.buttons[0]->visible == true) {
+		} else if (dPadSelectedToolbarButton == 1 && toolbarButtons.buttons[0]->visible == true) {
 			dPadSelectedToolbarButton = 0;
 		}
 	}
@@ -1846,8 +1655,7 @@ void handleNonGridToolbarNavigation() {
 		if (dPadSelectedToolbarButton == 0) {
 			hidScanInput();
 			toolbarTopLeftAction();
-		}
-		else if (dPadSelectedToolbarButton == 1) {
+		} else if (dPadSelectedToolbarButton == 1) {
 			hidScanInput();
 			toolbarTopRightAction();
 		}
@@ -1868,13 +1676,9 @@ void handleNonGridToolbarNavigation() {
 
 	if (hidKeysDown()&KEY_TOUCH) {
 		btnListCheckHighlight(&toolbarButtons, touchX, touchY);
-	}
-
-	else if(hidKeysHeld()&KEY_TOUCH){
+	} else if(hidKeysHeld()&KEY_TOUCH){
 		btnListCheckHighlight(&toolbarButtons, touchX, touchY);
-	}
-
-	else if (hidKeysUp()&KEY_TOUCH) {
+	} else if (hidKeysUp()&KEY_TOUCH) {
 		btnListCheckHighlight(&toolbarButtons, touchX, touchY);
 		btnListCheckRunCallback(&toolbarButtons, menu.previousTouch.px, menu.previousTouch.py);
 	}
@@ -1886,28 +1690,20 @@ void handleNonGridToolbarNavigation() {
 bool updateMenu(menu_s* m) {
 	if (menuStatus == menuStatusIcons) {
 		return updateGrid(m);
-	}
-	else if (menuStatus == menuStatusFolderChanged) {
-//		logText("Reloading main menu");
-
+	} else if (menuStatus == menuStatusFolderChanged) {
 		drawDisk("Loading folder");
 		gfxFlip();
 		reloadMenu(m);
 		gotoFirstIcon(m);
 		setMenuStatus(menuStatusIcons);
-
-//		logText("Done reloading");
-
 		return false;
-	}
-	else {
+	} else {
 		updateGrid(m);
 		return false;
 	}
 }
 
-void initEmptyMenuEntry(menuEntry_s* me)
-{
+void initEmptyMenuEntry(menuEntry_s* me) {
 	if(!me)return;
 
 	me->name[0]=0x00;
@@ -1922,8 +1718,7 @@ void initEmptyMenuEntry(menuEntry_s* me)
 	me->next=NULL;
 }
 
-void initMenuEntry(menuEntry_s* me, char* execPath, char* name, char* description, char* author, u8* iconData)
-{
+void initMenuEntry(menuEntry_s* me, char* execPath, char* name, char* description, char* author, u8* iconData) {
 	if(!me)return;
 
 	initEmptyMenuEntry(me);
@@ -2002,34 +1797,27 @@ int drawMenuEntry(menuEntry_s* me, gfxScreen_t screen, bool selected, menu_s *m,
 			if (selected) {
 				if (themeImageExists(themeImageCartBackgroundSelected)) {
 					drawThemeImage(themeImageCartBackgroundSelected, screen, x+3, y+4);
-				}
-				else {
+				} else {
 					gfxDrawSpriteAlphaBlend(screen, GFX_LEFT, (u8*)cartBackgroundSelected, 59, 59, x+3, y+4);
 				}
-			}
-			else {
+			} else {
 				if (themeImageExists(themeImageCartBackground)) {
 					drawThemeImage(themeImageCartBackground, screen, x+3, y+4);
-				}
-				else {
+				} else {
 					gfxDrawSpriteAlphaBlendFade(screen, GFX_LEFT, (u8*)cartBackground, 59, 59, x+3, y+4, translucencyAppBackgrounds);
 				}
 			}
-		}
-		else {
+		} else {
 			if (selected) {
 				if (themeImageExists(themeImageAppBackgroundSelected)) {
 					drawThemeImage(themeImageAppBackgroundSelected, screen, x+3, y+4);
-				}
-				else {
+				} else {
 					gfxDrawSpriteAlphaBlend(screen, GFX_LEFT, appBackgroundSelected, 56, 56, x+3, y+4);
 				}
-			}
-			else {
+			} else {
 				if (themeImageExists(themeImageAppBackground)) {
 					drawThemeImage(themeImageAppBackground, screen, x+3, y+4);
-				}
-				else {
+				} else {
 					gfxDrawSpriteAlphaBlendFade(screen, GFX_LEFT, appBackground, 56, 56, x+3, y+4, translucencyAppBackgrounds);
 				}
 
@@ -2069,7 +1857,6 @@ int drawMenuEntry(menuEntry_s* me, gfxScreen_t screen, bool selected, menu_s *m,
 	 */
 	if (me->showTick != NULL && *(me->showTick)) {
 		gfxDrawSpriteAlphaBlend(screen, GFX_LEFT, (u8*)tick_bin, 48, 48, x+7, y+8);
-//		gfxDrawSpriteAlphaBlend(screen, GFX_LEFT, tick, 48, 48, x+7, y+8);
 	}
 
 	if (entryIsCart) {
@@ -2077,20 +1864,17 @@ int drawMenuEntry(menuEntry_s* me, gfxScreen_t screen, bool selected, menu_s *m,
 			if (themeImageExists(themeImageCartOverlaySelected)) {
 				drawThemeImage(themeImageCartOverlaySelected, screen, x, y);
 			}
-		}
-		else {
+		} else {
 			if (themeImageExists(themeImageCartOverlay)) {
 				drawThemeImage(themeImageCartOverlay, screen, x, y);
 			}
 		}
-	}
-	else {
+	} else {
 		if (selected) {
 			if (themeImageExists(themeImageAppOverlaySelected)) {
 				drawThemeImage(themeImageAppOverlaySelected, screen, x, y);
 			}
-		}
-		else {
+		} else {
 			if (themeImageExists(themeImageAppOverlay)) {
 				drawThemeImage(themeImageAppOverlay, screen, x, y);
 			}
@@ -2115,7 +1899,6 @@ int drawMenuEntry(menuEntry_s* me, gfxScreen_t screen, bool selected, menu_s *m,
 			Draw app banner image (if it exists
 		*/
 		if (me->hasBanner) {
-//		if (0) {
 			if (strcmp(bannerImagePath, me->bannerImagePath) != 0) {
 				loadBannerImage(me);
 			}
@@ -2131,8 +1914,7 @@ int drawMenuEntry(menuEntry_s* me, gfxScreen_t screen, bool selected, menu_s *m,
 
 				if (bannerHasAlpha) {
 					gfxDrawSpriteAlphaBlend(GFX_TOP, GFX_LEFT, (u8*)bannerImage, bannerImageHeight, bannerImageWidth, bannerImageX, bannerImageY);
-				}
-				else {
+				} else {
 					gfxDrawSprite(GFX_TOP, GFX_LEFT, (u8*)bannerImage, bannerImageHeight, bannerImageWidth, bannerImageX, bannerImageY);
 				}
 			}
@@ -2142,7 +1924,6 @@ int drawMenuEntry(menuEntry_s* me, gfxScreen_t screen, bool selected, menu_s *m,
 			Draw app icon image if no banner was drawn
 		*/
 		if (!me->hasBanner || !drawBannerImage) {
-//		if (1) {
 			/*
 			 Draw the shadow
 			 */
@@ -2157,8 +1938,7 @@ int drawMenuEntry(menuEntry_s* me, gfxScreen_t screen, bool selected, menu_s *m,
 
 			if (me->isRegionFreeEntry && regionFreeGamecardIn) {
 				MAGFXApplyAlphaMask(gamecardMenuEntry.iconData, (u8*)appiconalphamask_bin, transparentIcon, 48, 48, false);
-			}
-			else {
+			} else {
 				MAGFXApplyAlphaMask(me->iconData, (u8*)appiconalphamask_bin, transparentIcon, 48, 48, false);
 			}
 
@@ -2174,7 +1954,6 @@ int drawMenuEntry(menuEntry_s* me, gfxScreen_t screen, bool selected, menu_s *m,
 		fullScreenBannerVisible = (me->hasBanner && me->bannerIsFullScreen);
 
 		if (!me->hasBanner || !me->bannerIsFullScreen) {
-//		if(1) {
 			/*
 			 Draw the app title
 			 */
@@ -2186,8 +1965,7 @@ int drawMenuEntry(menuEntry_s* me, gfxScreen_t screen, bool selected, menu_s *m,
 
 			if (me == &gamecardMenuEntry || (me->isRegionFreeEntry && regionFreeGamecardIn)) {
 				numTitleLines = MADrawTextWrap(GFX_TOP, GFX_LEFT, top-yAdjust, xPos, gamecardMenuEntry.name, &MAFontRobotoRegular14, titleColour->r, titleColour->g, titleColour->b, maximumTextWidth, maxLines);
-			}
-			else {
+			} else {
 				numTitleLines = MADrawTextWrap(GFX_TOP, GFX_LEFT, top-yAdjust, xPos, me->name, &MAFontRobotoRegular14, titleColour->r, titleColour->g, titleColour->b, maximumTextWidth, maxLines);
 			}
 
@@ -2198,8 +1976,7 @@ int drawMenuEntry(menuEntry_s* me, gfxScreen_t screen, bool selected, menu_s *m,
 			if (me->isRegionFreeEntry && regionFreeGamecardIn) {
 				yAdjust += (numTitleLines * 25);
 				MADrawTextWrap(GFX_TOP, GFX_LEFT, top-yAdjust, xPos, gamecardMenuEntry.author, &MAFontRobotoRegular12, dark->r, dark->g, dark->b, maximumTextWidth, 1);
-			}
-			else if (strlen(me->author) > 0) {
+			} else if (strlen(me->author) > 0) {
 				yAdjust += (numTitleLines * 25);
 				MADrawTextWrap(GFX_TOP, GFX_LEFT, top-yAdjust, xPos, me->author, &MAFontRobotoRegular12, dark->r, dark->g, dark->b, maximumTextWidth, 1);
 			}
@@ -2215,13 +1992,11 @@ int drawMenuEntry(menuEntry_s* me, gfxScreen_t screen, bool selected, menu_s *m,
 
 			if (me->isRegionFreeEntry && regionFreeGamecardIn) {
 				MADrawTextWrap(GFX_TOP, GFX_LEFT, top-yAdjust, xPos, gamecardMenuEntry.description, &MAFontRobotoRegular10, dark->r, dark->g, dark->b, descriptionMaxWidth, descriptionMaxLines);
-			}
-			else {
+			} else {
 				if (me->isRegionFreeEntry) {
 					char * insert = "Insert a game cart to play region free";
 					MADrawTextWrap(GFX_TOP, GFX_LEFT, top-yAdjust, xPos, insert, &MAFontRobotoRegular10, dark->r, dark->g, dark->b, descriptionMaxWidth, descriptionMaxLines);
-				}
-				else {
+				} else {
 					MADrawTextWrap(GFX_TOP, GFX_LEFT, top-yAdjust, xPos, me->description, &MAFontRobotoRegular10, dark->r, dark->g, dark->b, descriptionMaxWidth, descriptionMaxLines);
 				}
 			}

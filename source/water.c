@@ -50,8 +50,7 @@ void drawWater() {
 				if (staticWaterX > -70) {
 					staticWaterX -= 2;
 				}
-			}
-			else {
+			} else {
 				if (staticWaterX < 0) {
 					staticWaterX += 2;
 				}
@@ -75,8 +74,7 @@ void drawWater() {
 				topLevel -= 1;
 				lowerLevel -= 1;
 			}
-		}
-		else {
+		} else {
 			if (lowerLevel < waterLowerLevel) {
 				topLevel += 1;
 				lowerLevel += 1;
@@ -102,8 +100,7 @@ void updateWater() {
 	backgroundCnt++;
 }
 
-void initWaterEffect(waterEffect_s* we, u16 n, u16 s, float d,  float sf, u16 w, s16 offset)
-{
+void initWaterEffect(waterEffect_s* we, u16 n, u16 s, float d,  float sf, u16 w, s16 offset) {
 	if(!we)return;
 
 	we->numControlPoints=n;
@@ -117,8 +114,7 @@ void initWaterEffect(waterEffect_s* we, u16 n, u16 s, float d,  float sf, u16 w,
 }
 
 //dst shouldn't have been initialized
-void copyWaterEffect(waterEffect_s* dst, waterEffect_s* src)
-{
+void copyWaterEffect(waterEffect_s* dst, waterEffect_s* src) {
 	if(!dst || !src)return;
 
 	initWaterEffect(dst, src->numControlPoints, src->neighborhoodSize, src->dampFactor, src->springFactor, src->width, src->offset);
@@ -126,16 +122,14 @@ void copyWaterEffect(waterEffect_s* dst, waterEffect_s* src)
 	memcpy(dst->controlPointSpeeds, src->controlPointSpeeds, sizeof(float)*src->numControlPoints);
 }
 
-void killWaterEffect(waterEffect_s* we)
-{
+void killWaterEffect(waterEffect_s* we) {
 	if(!we)return;
 
 	free(we->controlPoints);
 	free(we->controlPointSpeeds);
 }
 
-float getNeighborAverage(waterEffect_s* we, int k)
-{
+float getNeighborAverage(waterEffect_s* we, int k) {
 	if(!we || k<0 || k>=we->numControlPoints)return 0.0f;
 
 	float sum=0.0f;
@@ -156,8 +150,7 @@ float getNeighborAverage(waterEffect_s* we, int k)
 	return sum/factors;
 }
 
-float evaluateWater(waterEffect_s* we, u16 x)
-{
+float evaluateWater(waterEffect_s* we, u16 x) {
 	if(!we || x>=we->width)return 0.0f;
 
 	const float vx=((float)((x-we->offset)*we->numControlPoints))/we->width;
