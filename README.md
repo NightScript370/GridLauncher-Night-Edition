@@ -12,9 +12,9 @@ Select the "?" icon in the top right corner of the launcher to view help pages. 
 
 #### Credits
 
--Smealum: Making the original HBLauncher
--mashers: Making GridLauncher
--Robz8: Making a TWL-side app for this.
+-Smealum: Making the original HBLauncher        
+-mashers: Making GridLauncher       
+-Robz8: Making a TWL-side app for this.       
 -NightYoshi370/MaorNinja: Making a fork of Gridlauncher to add some stuff in the original HBLauncher and add brand new features.
 
 #### Please see the [README.md from the original launcher](https://github.com/smealum/3ds_hb_menu) for more technical details
