@@ -10,6 +10,13 @@ To use the grid launcher as your homebrew menu, simply rename the 3dsx executabl
 
 Select the "?" icon in the top right corner of the launcher to view help pages. Press START in hbmenu to reboot your console into home menu. Use the D-PAD, CIRCLE-PAD or the touchscreen to select an application, and press A or touch it again to start it.
 
+#### Credits
+
+-Smealum: Making the original HBLauncher
+-mashers: Making GridLauncher
+-Robz8: Making a TWL-side app for this.
+-NightYoshi370/MaorNinja: Making a fork of Gridlauncher to add some stuff in the original HBLauncher and add brand new features.
+
 #### Please see the [README.md from the original launcher](https://github.com/smealum/3ds_hb_menu) for more technical details
 
 To compile, you'll need DevkitARM, zlib, 3DS portlibss and libpng.
