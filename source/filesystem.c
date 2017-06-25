@@ -55,8 +55,7 @@ void closeSDArchive()
 	FSUSER_CloseArchive(sdmcArchive);
 }
 
-int loadFile(char* path, void* dst, FS_Archive* archive, u64 maxSize)
-{
+int loadFile(char* path, void* dst, FS_Archive* archive, u64 maxSize) {
 	if(!path || !dst || !archive)return -1;
 
 	u64 size;
@@ -79,8 +78,7 @@ int loadFile(char* path, void* dst, FS_Archive* archive, u64 maxSize)
 	FSFILE_Close(fileHandle);
 	return ret;
 }
-static void loadSmdh(menuEntry_s* entry, const char* path, bool isAppFolder)
-{
+static void loadSmdh(menuEntry_s* entry, const char* path, bool isAppFolder) {
 	static char smdhPath[1024];
 	char *p;
 
@@ -103,13 +101,10 @@ static void loadSmdh(menuEntry_s* entry, const char* path, bool isAppFolder)
 
 				// first check for embedded smdh
 				ret = FSUSER_OpenFile(&fileHandle, sdmcArchive, fsMakePath(PATH_ASCII, path), FS_OPEN_READ, 0);
-				if (ret == 0)
-				{
+				if (ret == 0) {
 					ret=FSFILE_Read(fileHandle, &bytesRead, 0x0, &header, sizeof(header));
-					if (ret == 0 && bytesRead == sizeof(header))
-					{
-						if (header.headerSize >= 44 )
-						{
+					if (ret == 0 && bytesRead == sizeof(header)) {
+						if (header.headerSize >= 44 ) {
 							ret=FSFILE_Read(fileHandle, &bytesRead, header.smdhOffset, &smdh, sizeof(smdh));
 							if (ret == 0 && bytesRead == sizeof(smdh)) gotsmdh = true;
 						}
@@ -151,8 +146,7 @@ static void loadSmdh(menuEntry_s* entry, const char* path, bool isAppFolder)
 	}
 }
 
-bool fileExists(char* path, FS_Archive* archive)
-{
+bool fileExists(char* path, FS_Archive* archive) {
 	if(!path || !archive)return false;
 
 	Result ret;
@@ -167,10 +161,7 @@ bool fileExists(char* path, FS_Archive* archive)
 	return true;
 }
 
-//extern int debugValues[100];
-
-void addExecutableToMenu(menu_s* m, char* execPath)
-{
+void addExecutableToMenu(menu_s* m, char* execPath) {
 	if(!m || !execPath)return;
 
 	static menuEntry_s tmpEntry;
@@ -199,48 +190,39 @@ void addExecutableToMenu(menu_s* m, char* execPath)
 }
 
 bool checkAddBannerPathToMenuEntry(char *dst, char * path, char *filenamePrefix, bool fullscreen, bool * isFullScreen) {
-    static char bannerImagePath[128];
-    strcpy(bannerImagePath, "");
-    strcat(bannerImagePath, path);
-    if (filenamePrefix) {
-        strcat(bannerImagePath, "/");
-        strcat(bannerImagePath, filenamePrefix);
-    }
-    if (fullscreen)
-        strcat(bannerImagePath, "-banner-fullscreen.png");
-    else
-        strcat(bannerImagePath, "-banner.png");
-
-//    logText(bannerImagePath);
+	static char bannerImagePath[128];
+	strcpy(bannerImagePath, "");
+	strcat(bannerImagePath, path);
+	if (filenamePrefix) {
+		strcat(bannerImagePath, "/");
+		strcat(bannerImagePath, filenamePrefix);
+	}
+	if (fullscreen)
+		strcat(bannerImagePath, "-banner-fullscreen.png");
+	else
+		strcat(bannerImagePath, "-banner.png");
 
 	if (fileExists(bannerImagePath, &sdmcArchive)) {
-        strncpy(dst, bannerImagePath, ENTRY_PATHLENGTH);
-        return true;
-    }
+		strncpy(dst, bannerImagePath, ENTRY_PATHLENGTH);
+		return true;
+	}
 
-    return false;
+	return false;
 }
 
 void addBannerPathToMenuEntry(char *dst, char * path, char * filenamePrefix, bool * isFullScreen, bool * hasBanner) {
-//    *hasBanner = false;
-//    return;
-
-    if (checkAddBannerPathToMenuEntry(dst, path, filenamePrefix, true, isFullScreen)) {
-        *hasBanner = true;
-        *isFullScreen = true;
-    }
-
-    else if (checkAddBannerPathToMenuEntry(dst, path, filenamePrefix, false, isFullScreen)) {
-        *hasBanner = true;
-        *isFullScreen = false;
-    }
-    else {
-        *hasBanner = false;
-    }
+	if (checkAddBannerPathToMenuEntry(dst, path, filenamePrefix, true, isFullScreen)) {
+		*hasBanner = true;
+		*isFullScreen = true;
+	} else if (checkAddBannerPathToMenuEntry(dst, path, filenamePrefix, false, isFullScreen)) {
+		*hasBanner = true;
+		*isFullScreen = false;
+	} else {
+		*hasBanner = false;
+	}
 }
 
-void addDirectoryToMenu(menu_s* m, char* path)
-{
+void addDirectoryToMenu(menu_s* m, char* path) {
 	if(!m || !path)return;
 
 	static menuEntry_s tmpEntry;
@@ -250,8 +232,7 @@ void addDirectoryToMenu(menu_s* m, char* path)
 	int i, l=-1; for(i=0; path[i]; i++) if(path[i]=='/') l=i;
 
 	snprintf(execPath, 128, "%s/boot.3dsx", path);
-	if(!fileExists(execPath, &sdmcArchive))
-	{
+	if(!fileExists(execPath, &sdmcArchive)) {
 		snprintf(execPath, 128, "%s/%s.3dsx", path, &path[l+1]);
 		if(!fileExists(execPath, &sdmcArchive))return;
 	}
@@ -272,178 +253,162 @@ void addDirectoryToMenu(menu_s* m, char* path)
 }
 
 void scanHomebrewDirectory(menu_s* m, char* path) {
-    if(!path)return;
+	if(!path)return;
 
-    Handle dirHandle;
-    FS_Path dirPath=fsMakePath(PATH_ASCII, path);
-    FSUSER_OpenDirectory(&dirHandle, sdmcArchive, dirPath);
+	Handle dirHandle;
+	FS_Path dirPath=fsMakePath(PATH_ASCII, path);
+	FSUSER_OpenDirectory(&dirHandle, sdmcArchive, dirPath);
 
-    static char fullPath[1024][1024];
-    u32 entriesRead;
-    int totalentries = 0;
-    do
-    {
-        static FS_DirectoryEntry entry;
-        memset(&entry,0,sizeof(FS_DirectoryEntry));
-        entriesRead=0;
-        FSDIR_Read(dirHandle, &entriesRead, 1, &entry);
-        if(entriesRead)
-        {
-            strncpy(fullPath[totalentries], path, 1024);
-            int n=strlen(fullPath[totalentries]);
-            utf16_to_utf8(&fullPath[totalentries][n], entry.name, 1024-n);
-            if(entry.attributes & FS_ATTRIBUTE_DIRECTORY) //directories
-            {
-                //addDirectoryToMenu(m, fullPath[totalentries]);
-                totalentries++;
-            }else{ //stray executables
-                n=strlen(fullPath[totalentries]);
-                if(n>5 && !strcmp(".3dsx", &fullPath[totalentries][n-5])){
-                    //addFileToMenu(m, fullPath[totalentries]);
-                    totalentries++;
-                }
-                if(n>4 && !strcmp(".xml", &fullPath[totalentries][n-4])) {
-                    //addFileToMenu(m, fullPath[totalentries]);
-                    totalentries++;
-                }
-            }
-        }
-    }while(entriesRead);
+	static char fullPath[1024][1024];
+	u32 entriesRead;
+	int totalentries = 0;
+	do {
+		static FS_DirectoryEntry entry;
+		memset(&entry,0,sizeof(FS_DirectoryEntry));
+		entriesRead=0;
+		FSDIR_Read(dirHandle, &entriesRead, 1, &entry);
+		if(entriesRead) {
+			strncpy(fullPath[totalentries], path, 1024);
+			int n=strlen(fullPath[totalentries]);
+			unicodeToChar(&fullPath[totalentries][n], entry.name, 1024-n);
+			if(entry.attributes & FS_ATTRIBUTE_DIRECTORY) { //directories
+				totalentries++;
+			} else { //stray executables
+				n=strlen(fullPath[totalentries]);
+				if(n>5 && !strcmp(".3dsx", &fullPath[totalentries][n-5])){
+					//addFileToMenu(m, fullPath[totalentries]);
+					totalentries++;
+				}
+				if(n>4 && !strcmp(".xml", &fullPath[totalentries][n-4])) {
+					//addFileToMenu(m, fullPath[totalentries]);
+					totalentries++;
+				}
+			}
+		}
+	}while(entriesRead);
 
-    FSDIR_Close(dirHandle);
+	FSDIR_Close(dirHandle);
 
-    bool sortAlpha = getConfigBoolForKey("sortAlpha", false, configTypeMain);
-    addMenuEntries(fullPath, totalentries, strlen(path), m, sortAlpha);
+	bool sortAlpha = getConfigBoolForKey("sortAlpha", false, configTypeMain);
+	addMenuEntries(fullPath, totalentries, strlen(path), m, sortAlpha);
 
-    updateMenuIconPositions(m);
+	updateMenuIconPositions(m);
 }
 
-void addShortcutToMenu(menu_s* m, char* shortcutPath)
-{
-    if(!m || !shortcutPath)return;
+void addShortcutToMenu(menu_s* m, char* shortcutPath) {
+	if(!m || !shortcutPath)return;
 
-    static shortcut_s tmpShortcut;
+	static shortcut_s tmpShortcut;
 
-    Result ret = createShortcut(&tmpShortcut, shortcutPath);
-    if(!ret) {
-        int i, l=-1; for(i=0; shortcutPath[i]; i++) if(shortcutPath[i]=='.') l=i;
+	Result ret = createShortcut(&tmpShortcut, shortcutPath);
+	if(!ret) {
+		int i, l=-1; for(i=0; shortcutPath[i]; i++) if(shortcutPath[i]=='.') l=i;
 
-        char bannerPath[128];
-        strcpy(bannerPath, "");
-        strncat(bannerPath, &shortcutPath[0], l);
-        strcat(bannerPath, "");
+		char bannerPath[128];
+		strcpy(bannerPath, "");
+		strncat(bannerPath, &shortcutPath[0], l);
+		strcat(bannerPath, "");
 
-        addBannerPathToMenuEntry(tmpShortcut.bannerImagePath, bannerPath, NULL, &tmpShortcut.bannerIsFullScreen, &tmpShortcut.hasBanner);
+		addBannerPathToMenuEntry(tmpShortcut.bannerImagePath, bannerPath, NULL, &tmpShortcut.bannerIsFullScreen, &tmpShortcut.hasBanner);
 
-        createMenuEntryShortcut(m, &tmpShortcut);
-    }
+		createMenuEntryShortcut(m, &tmpShortcut);
+	}
 
-    freeShortcut(&tmpShortcut);
+	freeShortcut(&tmpShortcut);
 }
 
-void createMenuEntryShortcut(menu_s* m, shortcut_s* s)
-{
-    if(!m || !s)return;
+void createMenuEntryShortcut(menu_s* m, shortcut_s* s) {
+	if(!m || !s)return;
 
-    static menuEntry_s tmpEntry;
-    static smdh_s tmpSmdh;
+	static menuEntry_s tmpEntry;
+	static smdh_s tmpSmdh;
 
-    char* execPath = s->executable;
+	char* execPath = s->executable;
 
-    if(!fileExists(execPath, &sdmcArchive))return;
+	if(!fileExists(execPath, &sdmcArchive))return;
 
-    int i, l=-1; for(i=0; execPath[i]; i++) if(execPath[i]=='/') l=i;
+	int i, l=-1; for(i=0; execPath[i]; i++) if(execPath[i]=='/') l=i;
 
-    char* iconPath = s->icon;
-    int ret = loadFile(iconPath, &tmpSmdh, &sdmcArchive, sizeof(smdh_s));
+	char* iconPath = s->icon;
+	int ret = loadFile(iconPath, &tmpSmdh, &sdmcArchive, sizeof(smdh_s));
 
-    if(!ret)
-    {
-        initEmptyMenuEntry(&tmpEntry);
-        ret = extractSmdhData(&tmpSmdh, tmpEntry.name, tmpEntry.description, tmpEntry.author, tmpEntry.iconData);
-        strncpy(tmpEntry.executablePath, execPath, ENTRY_PATHLENGTH);
-    } else {
+	if(!ret) {
+		initEmptyMenuEntry(&tmpEntry);
+		ret = extractSmdhData(&tmpSmdh, tmpEntry.name, tmpEntry.description, tmpEntry.author, tmpEntry.iconData);
+		strncpy(tmpEntry.executablePath, execPath, ENTRY_PATHLENGTH);
+	} else {
 		initMenuEntry(&tmpEntry, execPath, &execPath[l+1], execPath, "Unknown publisher", (u8*)installerIcon_bin);
 		loadSmdh(&tmpEntry, execPath, false);
 	}
 
-    if(s->name) strncpy(tmpEntry.name, s->name, ENTRY_NAMELENGTH);
-    if(s->description) strncpy(tmpEntry.description, s->description, ENTRY_DESCLENGTH);
-    if(s->author) strncpy(tmpEntry.author, s->author, ENTRY_AUTHORLENGTH);
+	if(s->name) strncpy(tmpEntry.name, s->name, ENTRY_NAMELENGTH);
+	if(s->description) strncpy(tmpEntry.description, s->description, ENTRY_DESCLENGTH);
+	if(s->author) strncpy(tmpEntry.author, s->author, ENTRY_AUTHORLENGTH);
 
-    if(s->arg)
-    {
-        strncpy(tmpEntry.arg, s->arg, ENTRY_ARGLENGTH);
-    }
+	if(s->arg) {
+		strncpy(tmpEntry.arg, s->arg, ENTRY_ARGLENGTH);
+	}
 
-    if(fileExists(s->descriptor, &sdmcArchive)) loadDescriptor(&tmpEntry.descriptor, s->descriptor);
+	if(fileExists(s->descriptor, &sdmcArchive)) loadDescriptor(&tmpEntry.descriptor, s->descriptor);
 
-    tmpEntry.isShortcut = true;
+	tmpEntry.isShortcut = true;
 
-    if (s->hasBanner) {
-        strcpy(tmpEntry.bannerImagePath, s->bannerImagePath);
-        tmpEntry.bannerIsFullScreen = s->bannerIsFullScreen;
-    }
-    else {
-        tmpEntry.bannerImagePath[0] = '\0';
-    }
+	if (s->hasBanner) {
+		strcpy(tmpEntry.bannerImagePath, s->bannerImagePath);
+		tmpEntry.bannerIsFullScreen = s->bannerIsFullScreen;
+	} else {
+		tmpEntry.bannerImagePath[0] = '\0';
+	}
 
-    tmpEntry.hasBanner = s->hasBanner;
+	tmpEntry.hasBanner = s->hasBanner;
 
-    addMenuEntryCopy(m, &tmpEntry);
+	addMenuEntryCopy(m, &tmpEntry);
 }
 
 char * currentThemePath() {
-    char * currentThemeName = getConfigStringForKey("currentTheme", "Default", configTypeMain);
-    int len = strlen(themesPath) + strlen(currentThemeName) + 2;
-    char * path = malloc(len);
-    sprintf(path, "%s%s/", themesPath, currentThemeName);
-    return path;
+	char * currentThemeName = getConfigStringForKey("currentTheme", "Default", configTypeMain);
+	int len = strlen(themesPath) + strlen(currentThemeName) + 2;
+	char * path = malloc(len);
+	sprintf(path, "%s%s/", themesPath, currentThemeName);
+	return path;
 }
 
 int compareStrings(const void *stringA, const void *stringB) {
-    const char *a = *(const char**)stringA;
-    const char *b = *(const char**)stringB;
-    return strcmp(a, b);
+	const char *a = *(const char**)stringA;
+	const char *b = *(const char**)stringB;
+	return strcmp(a, b);
 }
 
 directoryContents * contentsOfDirectoryAtPath(char * path, bool dirsOnly) {
-    directoryContents * contents = malloc(sizeof(directoryContents));
+	directoryContents * contents = malloc(sizeof(directoryContents));
 
-    int numPaths = 0;
+	int numPaths = 0;
 
-    Handle dirHandle;
-    FS_Path dirPath= fsMakePath(PATH_ASCII, path);
-    FSUSER_OpenDirectory(&dirHandle, sdmcArchive, dirPath);
+	Handle dirHandle;
+	FS_Path dirPath= fsMakePath(PATH_ASCII, path);
+	FSUSER_OpenDirectory(&dirHandle, sdmcArchive, dirPath);
 
-    u32 entriesRead;
-    do
-    {
-        static FS_DirectoryEntry entry;
-        memset(&entry,0,sizeof(FS_DirectoryEntry));
-        entriesRead=0;
-        FSDIR_Read(dirHandle, &entriesRead, 1, &entry);
-        if(entriesRead) {
-            if(!dirsOnly || (dirsOnly && (entry.attributes & FS_ATTRIBUTE_DIRECTORY))) {
-                char fullPath[1024];
-                strncpy(fullPath, path, 1024);
-                int n=strlen(path);
-                unicodeToChar(&fullPath[n], entry.name, 1024-n);
+	u32 entriesRead;
+	do {
+		static FS_DirectoryEntry entry;
+		memset(&entry,0,sizeof(FS_DirectoryEntry));
+		entriesRead=0;
+		FSDIR_Read(dirHandle, &entriesRead, 1, &entry);
+		if(entriesRead) {
+			if(!dirsOnly || (dirsOnly && (entry.attributes & FS_ATTRIBUTE_DIRECTORY))) {
+				char fullPath[1024];
+				strncpy(fullPath, path, 1024);
+				int n=strlen(path);
+				unicodeToChar(&fullPath[n], entry.name, 1024-n);
 
-                strcpy(contents->paths[numPaths], fullPath);
-                numPaths++;
-            }
-        }
-    }while(entriesRead);
+				strcpy(contents->paths[numPaths], fullPath);
+				numPaths++;
+			}
+		}
+	} while(entriesRead);
 
-    FSDIR_Close(dirHandle);
+	FSDIR_Close(dirHandle);
 
-//    qsort(contents->paths, numPaths, 1024, compareStrings);
-
-    contents->numPaths = numPaths;
-    return contents;
+	contents->numPaths = numPaths;
+	return contents;
 }
-
-
-
-

@@ -62,21 +62,17 @@ void btnSetButtonType(button * aButton, int type) {
 		if (type == btnButtonTypeToolbarLeft) {
 			aButton->y = 0;
 			btnTopJustify(aButton);
-		}
-		else if (type == btnButtonTypeToolbarRight) {
+		} else if (type == btnButtonTypeToolbarRight) {
 			btnTopJustify(aButton);
 			btnRightJustify(aButton);
-		}
-		else if (type == btnButtonTypeToolbarBottomRight) {
+		} else if (type == btnButtonTypeToolbarBottomRight) {
 			aButton->x = 0;
 			btnRightJustify(aButton);
-		}
-		else if (type == btnButtonTypeToolbarBottomLeft) {
+		} else if (type == btnButtonTypeToolbarBottomLeft) {
 			aButton->x = 0;
 			aButton->y = 0;
 		}
-	}
-	else if (type == btnButtonTypePageArrowLeft || type == btnButtonTypePageArrowRight) {
+	} else if (type == btnButtonTypePageArrowLeft || type == btnButtonTypePageArrowRight) {
 		aButton->w = 29;
 		aButton->h = 21;
 		aButton->screen = GFX_BOTTOM;
@@ -88,21 +84,18 @@ void btnSetButtonType(button * aButton, int type) {
 
 		if (type == btnButtonTypePageArrowLeft) {
 			aButton->y = arrowEdgeOffset;
-		}
-		else if (type == btnButtonTypePageArrowRight) {
+		} else if (type == btnButtonTypePageArrowRight) {
 			aButton->y = 320-aButton->h-arrowEdgeOffset;
 		}
 
 		aButton->highlighted = true;
-	}
-	else if (type == btnButtonTypeRect) {
+	} else if (type == btnButtonTypeRect) {
 		aButton->visible = true;
 		aButton->w = btnRectWidth;
 		aButton->h = btnRectHeight;
 		aButton->screen = GFX_BOTTOM;
 		aButton->side = GFX_LEFT;
-	}
-	else if (type == btnButtonTypeSlider) {
+	} else if (type == btnButtonTypeSlider) {
 		aButton->w = 30;
 		aButton->h = 257;
 		aButton->screen = GFX_BOTTOM;
@@ -118,8 +111,7 @@ void btnDrawIcon(button * aButton, u8 * icon) {
 		r = 255;
 		g = 255;
 		b = 255;
-	}
-	else {
+	} else {
 		r = 50;
 		g = 50;
 		b = 50;
@@ -225,8 +217,7 @@ void btnDrawButton(button * aButton) {
 	if (aButton->highlighted) {
 		aRGB = tintColour();
 
-	}
-	else {
+	} else {
 		aRGB = inactiveColour();
 	}
 
@@ -239,68 +230,53 @@ void btnDrawButton(button * aButton) {
 		if (themeImageExists(themeImageTopLeftButton)) {
 			if (aButton->highlighted && themeImageExists(themeImageTopLeftButtonSelected)) {
 				drawThemeImage(themeImageTopLeftButtonSelected, aButton->screen, aButton->x-(36-aButton->h), aButton->y);
-			}
-			else {
+			} else {
 				drawThemeImage(themeImageTopLeftButton, aButton->screen, aButton->x-(36-aButton->h), aButton->y);
 			}
-		}
-		else {
+		} else {
 			gfxDrawSpriteAlphaBlendFade(aButton->screen, aButton->side, (u8*)toolbarbuttonshadowleft_bin, 41, 41, aButton->x-(41-aButton->h), aButton->y, translucencyBarIcons);
 			btnDrawMaskedBitmapForButton(aButton, lefttoolbarbuttonalphamask_bin, r, g, b, translucencyBarIcons);
 		}
-	}
-	else if (aButton->buttonType == btnButtonTypeToolbarRight) {
+	} else if (aButton->buttonType == btnButtonTypeToolbarRight) {
 		if (themeImageExists(themeImageTopRightButton)) {
 			if (aButton->highlighted && themeImageExists(themeImageTopRightButtonSelected)) {
 				drawThemeImage(themeImageTopRightButtonSelected, aButton->screen, aButton->x-(36-aButton->h), aButton->y-(36-aButton->w));
-			}
-			else {
+			} else {
 				drawThemeImage(themeImageTopRightButton, aButton->screen, aButton->x-(36-aButton->h), aButton->y-(36-aButton->w));
 			}
-		}
-		else {
+		} else {
 			gfxDrawSpriteAlphaBlendFade(aButton->screen, aButton->side, (u8*)toolbarbuttonshadowright_bin, 41, 41, aButton->x-(41-aButton->h), aButton->y-(41-aButton->w), translucencyBarIcons);
 			btnDrawMaskedBitmapForButton(aButton, righttoolbarbuttonalphamask_bin, r, g, b, translucencyBarIcons);
 		}
-	}
-	else if (aButton->buttonType == btnButtonTypeToolbarBottomRight) {
+	} else if (aButton->buttonType == btnButtonTypeToolbarBottomRight) {
 		if (themeImageExists(themeImageBottomRightButton)) {
 			if (aButton->highlighted && themeImageExists(themeImageBottomRightButtonSelected)) {
 				drawThemeImage(themeImageBottomRightButtonSelected, aButton->screen, aButton->x, aButton->y-(36-aButton->w));
-			}
-			else {
+			} else {
 				drawThemeImage(themeImageBottomRightButton, aButton->screen, aButton->x, aButton->y-(36-aButton->w));
 			}
-		}
-		else {
+		} else {
 			gfxDrawSpriteAlphaBlendFade(aButton->screen, aButton->side, (u8*)toolbarbuttonshadowbottomright_bin, 41, 41, aButton->x, aButton->y-(41-aButton->w), translucencyBarIcons);
 			btnDrawMaskedBitmapForButton(aButton, bottomrighttoolbarbuttonalphamask_bin, r, g, b, translucencyBarIcons);
 		}
-	}
-	else if (aButton->buttonType == btnButtonTypeToolbarBottomLeft) {
+	} else if (aButton->buttonType == btnButtonTypeToolbarBottomLeft) {
 		if (themeImageExists(themeImageBottomLeftButton)) {
 			if (aButton->highlighted && themeImageExists(themeImageBottomLeftButtonSelected)) {
 				drawThemeImage(themeImageBottomLeftButtonSelected, aButton->screen, aButton->x, aButton->y);
-			}
-			else {
+			} else {
 				drawThemeImage(themeImageBottomLeftButton, aButton->screen, aButton->x, aButton->y);
 			}
-		}
-		else {
+		} else {
 			gfxDrawSpriteAlphaBlendFade(aButton->screen, aButton->side, (u8*)toolbarbuttonshadowbottomleft_bin, 41, 41, aButton->x, aButton->y, translucencyBarIcons);
 			btnDrawMaskedBitmapForButton(aButton, bottomlefttoolbarbuttonalphamask_bin, r, g, b, translucencyBarIcons);
 		}
-	}
-	else if (aButton->buttonType == btnButtonTypePageArrowLeft) {
+	} else if (aButton->buttonType == btnButtonTypePageArrowLeft) {
 		btnDrawMaskedBitmapForButton(aButton, arrowleftalphamask_bin, r, g, b, translucencyPageControls);
-	}
-	else if (aButton->buttonType == btnButtonTypePageArrowRight) {
+	} else if (aButton->buttonType == btnButtonTypePageArrowRight) {
 		btnDrawMaskedBitmapForButton(aButton, arrowrightalphamask_bin, r, g, b, translucencyPageControls);
-	}
-	else if (aButton->buttonType == btnButtonTypeRect) {
+	} else if (aButton->buttonType == btnButtonTypeRect) {
 		drawButtonRectForButton(aButton, r, g, b);
-	}
-	else {
+	} else {
 		return;
 	}
 
@@ -313,40 +289,31 @@ void btnDrawButton(button * aButton) {
 	if (aButton->buttonIcon == btnButtonIconBackArrow) {
 		if (themeImageExists(themeImageBackSymbol)) {
 			drawThemeImage(themeImageBackSymbol, aButton->screen, aButton->x, aButton->y);
-		}
-		else {
+		} else {
 			btnDrawIcon(aButton, (u8*)backarrow_bin);
 		}
-	}
-	else if (aButton->buttonIcon == btnButtonIconSpanner) {
+	} else if (aButton->buttonIcon == btnButtonIconSpanner) {
 		if (themeImageExists(themeImageSettingsSymbol)) {
 			drawThemeImage(themeImageSettingsSymbol, aButton->screen, aButton->x, aButton->y);
-		}
-		else {
+		} else {
 			btnDrawIcon(aButton, (u8*)spanner_bin);
 		}
-	}
-	else if (aButton->buttonIcon == btnButtonIconQuestionMark) {
+	} else if (aButton->buttonIcon == btnButtonIconQuestionMark) {
 		if (themeImageExists(themeImageHelpSymbol)) {
 			drawThemeImage(themeImageHelpSymbol, aButton->screen, aButton->x, aButton->y);
-		}
-		else {
+		} else {
 			btnDrawIcon(aButton, (u8*)questionmark_bin);
 		}
-	}
-	else if (aButton->buttonIcon == btnButtonIconFolder) {
+	} else if (aButton->buttonIcon == btnButtonIconFolder) {
 		if (themeImageExists(themeImageFoldersSymbol)) {
 			drawThemeImage(themeImageFoldersSymbol, aButton->screen, aButton->x, aButton->y);
-		}
-		else {
+		} else {
 			btnDrawIcon(aButton, (u8*)folder_bin);
 		}
-	}
-	else if (aButton->buttonIcon == btnButtonIconHome) {
+	} else if (aButton->buttonIcon == btnButtonIconHome) {
 		if (themeImageExists(themeImageHomeSymbol)) {
 			drawThemeImage(themeImageHomeSymbol, aButton->screen, aButton->x, aButton->y);
-		}
-		else {
+		} else {
 			btnDrawIcon(aButton, (u8*)home_bin);
 		}
 	}
@@ -395,10 +362,6 @@ void btnRightJustify(button * aButton) {
 	aButton->y = 320-aButton->h;
 }
 
-//void btnCentreHorizontally(button * aButton) {
-//	aButton->y = (320/2) - (aButton->h/2);
-//}
-
 int updateSliderValue(int touchX, int touchY, button * slider) {
 	if (btnTouchWithin(touchX, touchY, slider)) {
 		slider->value = touchX - slider->y - 1;
@@ -410,8 +373,7 @@ int updateSliderValue(int touchX, int touchY, button * slider) {
 			if (slider->value > 0) {
 				slider->value = slider->value - 1;
 			}
-		}
-		else if (btnTouchWithinRect(touchX, touchY, sliderButtonX, sliderPlusButtonY, sliderButtonWidth, sliderButtonHeight)) {
+		} else if (btnTouchWithinRect(touchX, touchY, sliderButtonX, sliderPlusButtonY, sliderButtonWidth, sliderButtonHeight)) {
 
 			if (slider->value < slider->h - 2) {
 				slider->value = slider->value + 1;
@@ -421,34 +383,6 @@ int updateSliderValue(int touchX, int touchY, button * slider) {
 
 	return slider->value;
 }
-
-//int gridButtonGap = 5;
-//int gridInitialX = 240 - btnRectWidth - 40;
-//int gridInitialY = 27;
-
-//void btnConfigureButtonForGrid(button * aButton, int * x, int * y, char * shortText1, char * shortText2, char * longText) {
-//
-//	if (*x == -1) {
-//		*x = gridInitialX;
-//	}
-//
-//	if (*y == -1) {
-//		*y = gridInitialY;
-//	}
-//
-//	btnSetButtonType(aButton, btnButtonTypeRect);
-//	aButton->x = *x;
-//	aButton->y = *y;
-//	strcpy(aButton->shortText1, shortText1);
-//	strcpy(aButton->shortText2, shortText2);
-//	strcpy(aButton->longText, longText);
-//
-//	*x -= (aButton->w + gridButtonGap);
-//	if (*x < 0) {
-//		*x = gridInitialX;
-//		*y += (aButton->h + gridButtonGap);
-//	}
-//}
 
 void btnAddButtonToButtonList(button * aButton, buttonList *aButtonList) {
 	if (aButtonList->numButtons == buttonListMaxButtons) {
@@ -473,12 +407,10 @@ void btnRunCallback(button * aButton) {
 	if (aButton->callbackObject1) {
 		if (aButton->callbackObject2) {
 			(aButton->callback)(aButton->callbackObject1, aButton->callbackObject2);
-		}
-		else {
+		} else {
 			(aButton->callback)(aButton->callbackObject1);
 		}
-	}
-	else {
+	} else {
 		(aButton->callback)();
 	}
 }
@@ -507,14 +439,6 @@ void btnListUnHighlight(buttonList * aButtonList) {
 	}
 }
 
-//void btnListUnSelect(buttonList * aButtonList) {
-//	int i;
-//	for (i=0; i<aButtonList->numButtons; i++) {
-//		button * aButton = aButtonList->buttons[i];
-//		aButton->selected = false;
-//	}
-//}
-
 void btnDrawButtonList(buttonList * aButtonList) {
 	int i;
 	for (i=0; i<aButtonList->numButtons; i++) {
@@ -522,17 +446,6 @@ void btnDrawButtonList(buttonList * aButtonList) {
 		btnDrawButton(aButton);
 	}
 }
-
-//void btnListCheckSelected(buttonList * aButtonList) {
-//	int i;
-//	for (i=0; i<aButtonList->numButtons; i++) {
-//		button * aButton = aButtonList->buttons[i];
-//
-//		if (aButton->selectedCallback != NULL) {
-//			aButton->selected = (aButton->selectedCallback)();
-//		}
-//	}
-//}
 
 button * btnButtonInListWithTag(buttonList * aButtonList, int tag) {
 	int i;
@@ -545,7 +458,3 @@ button * btnButtonInListWithTag(buttonList * aButtonList, int tag) {
 
 	return NULL;
 }
-
-
-
-

@@ -564,9 +564,7 @@ void drawGridWithPage(menu_s* m, int page, int pageYOffset, int pageXOffset, boo
 	rgbColour * inactiveCol = inactiveColour();
 	rgbColour * tintCol = tintColour();
 
-
-//	Prepare translucent images for drawing
-	if (!alphaImagesDrawn) {
+	if (!alphaImagesDrawn) { // Prepare translucent images for drawing
 		MAGFXImageWithRGBAndAlphaMask(inactiveCol->r, inactiveCol->g, inactiveCol->b, (u8*)appbackgroundalphamask_bin, appBackground, 56, 56);
 		MAGFXImageWithRGBAndAlphaMask(inactiveCol->r, inactiveCol->g, inactiveCol->b, (u8*)pageiconalphamask_bin, pageUnselected, 13, 13);
 		MAGFXImageWithRGBAndAlphaMask(tintCol->r, tintCol->g, tintCol->b, (u8*)pageiconalphamask_bin, pageSelected, 13, 13);
@@ -577,10 +575,7 @@ void drawGridWithPage(menu_s* m, int page, int pageYOffset, int pageXOffset, boo
 		alphaImagesDrawn = true;
 	}
 
-	/*
-	 Prepare page controls for drawing
-	 */
-	if (!pageControlPanelsDrawn) {
+	if (!pageControlPanelsDrawn) { // Prepare page controls for drawing
 		MAGFXImageWithRGBAndAlphaMask(panelRBottom, panelGBottom, panelBBottom, (u8*)pageControlPanelLeftAlphaMask_bin, pageControlPanelLeft, 81, 36);
 		MAGFXImageWithRGBAndAlphaMask(panelRBottom, panelGBottom, panelBBottom, (u8*)pageControlPanelRightAlphaMask_bin, pageControlPanelRight, 81, 36);
 
@@ -829,7 +824,7 @@ void freeMenuEntry(menuEntry_s* me) {
 void clearMenuEntries(menu_s* m) {
 	if(!m)return;
 
-	m->selectedEntry=0;//indexOfFirstVisibleMenuEntry(m);
+	m->selectedEntry=0;
 
 	menuEntry_s* me = m->entries;
 	menuEntry_s* temp = NULL;
@@ -1920,9 +1915,7 @@ int drawMenuEntry(menuEntry_s* me, gfxScreen_t screen, bool selected, menu_s *m,
 			}
 		}
 
-		/*
-			Draw app icon image if no banner was drawn
-		*/
+		// Draw app icon image if no banner was drawn
 		if (!me->hasBanner || !drawBannerImage) {
 			/*
 			 Draw the shadow
@@ -1931,9 +1924,7 @@ int drawMenuEntry(menuEntry_s* me, gfxScreen_t screen, bool selected, menu_s *m,
 
 			displayIconY += (156-ENTRY_ICON_HEIGHT)/2;
 
-			/*
-			 Draw the app icon
-			 */
+			//Draw the app icon
 			u8 transparentIcon[48*48*4];
 
 			if (me->isRegionFreeEntry && regionFreeGamecardIn) {

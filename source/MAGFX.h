@@ -21,5 +21,3 @@ void MAGFXApplyAlphaMask(u8* imageSource, u8* alphaSourceMask, u8* dest, int wid
 void MAGFXTranslucentRect(int width, int height, int r, int g, int b, int alpha, u8* dest);
 void MAGFXDrawPanel(gfxScreen_t screen, bool forceZeroLeftOffset);
 void drawDisk(char * text);
-
-//u8 * MAGFXScaleSprite(u8* spriteData, u8* newSpriteData, u16 width, u16 height, int scaleFactor, bool alpha);

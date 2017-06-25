@@ -12,7 +12,6 @@
 
 #define ZLIB_CHUNK (16 * 1024)
 
-//#include "error.h"
 #include "filesystem.h"
 #include "netloader.h"
 #include "alert.h"
@@ -80,11 +79,6 @@ static int netloader_draw_progress(void) {
 
 	gfxFlip();
 
-//	gfxFlushBuffers();
-//	gfxSwapBuffers();
-//
-//	gspWaitForVBlank();
-
 	return 0;
 }
 
@@ -103,7 +97,6 @@ static int recvall(int sock, void *buffer, int size, int flags) {
 		};
 
 		if (len == -1) {
-
 			if (errno != EAGAIN && errno != EWOULDBLOCK) {
 				netloader_socket_error("recv", errno);
 				break;
@@ -240,8 +233,7 @@ int netloader_activate(void) {
 	struct sockaddr_in serv_addr;
 	// create udp socket for broadcast ping
 	netloader_udpfd = socket(AF_INET, SOCK_DGRAM, 0);
-	if (netloader_udpfd < 0)
-	{
+	if (netloader_udpfd < 0) {
 		netloader_socket_error("udp socket", errno );
 		return -1;
 	}
@@ -256,8 +248,7 @@ int netloader_activate(void) {
 		return -1;
 	}
 
-	if (set_socket_nonblocking(netloader_udpfd) == -1)
-	{
+	if (set_socket_nonblocking(netloader_udpfd) == -1) {
 		netloader_socket_error("listen fcntl", errno);
 		return -1;
 	}
@@ -376,11 +367,9 @@ int load3DSX(int sock, u32 remote) {
 	setvbuf(file,writebuffer,_IOFBF, 65536);
 
 	if (response == 0) {
-		//printf("transferring %s\n%d bytes.\n", filename, filelen);
 
 		if (decompress(sock,file,filelen)==Z_OK) {
 			send(sock,(int *)&response,sizeof(response),0);
-			//printf("\ntransferring command line\n");
 			len = recvall(sock,(char*)&netloaded_cmdlen,4,0);
 			if (netloaded_cmdlen) {
 				netloaded_commandline = malloc(netloaded_cmdlen);

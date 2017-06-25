@@ -3,8 +3,7 @@
 
 using namespace tinyxml2;
 
-void initDescriptor(descriptor_s* d)
-{
+void initDescriptor(descriptor_s* d) {
 	if(!d)return;
 
 	d->targetTitles = NULL;
@@ -20,16 +19,14 @@ void initDescriptor(descriptor_s* d)
 }
 
 // TODO : error checking
-void loadDescriptor(descriptor_s* d, char* path)
-{
+void loadDescriptor(descriptor_s* d, char* path) {
 	if(!d || !path)return;
 
 	XMLDocument doc;
 	if(doc.LoadFile(path))return;
 
 	XMLElement* targets = doc.FirstChildElement("targets");
-	if(targets)
-	{
+	if(targets) {
 		// grab selectable target flag (default to false)
 		{
 			if(targets->QueryBoolAttribute("selectable", &d->selectTargetProcess)) d->selectTargetProcess = false;
@@ -49,10 +46,8 @@ void loadDescriptor(descriptor_s* d, char* path)
 			d->targetTitles = (targetTitle_s*)malloc(sizeof(targetTitle_s) * d->numTargetTitles);
 			d->numTargetTitles = 0;
 
-			for (tinyxml2::XMLElement* child = targets->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
-			{
-				if(!strcmp(child->Name(), "title"))
-				{
+			for (tinyxml2::XMLElement* child = targets->FirstChildElement(); child != NULL; child = child->NextSiblingElement()) {
+				if(!strcmp(child->Name(), "title")) {
 					// SD is default mediatype
 					int mediatype;
 					if(child->QueryIntAttribute("mediatype", &mediatype))mediatype = 1;
@@ -67,8 +62,7 @@ void loadDescriptor(descriptor_s* d, char* path)
 	}
 
 	XMLElement* services = doc.FirstChildElement("services");
-	if(services)
-	{
+	if(services) {
 		// grab "autodetect services" flag (default to true)
 		{
 			if(services->QueryBoolAttribute("autodetect", &d->autodetectServices)) d->autodetectServices = true;
@@ -88,10 +82,8 @@ void loadDescriptor(descriptor_s* d, char* path)
 			d->requestedServices = (serviceRequest_s*)malloc(sizeof(serviceRequest_s) * d->numRequestedServices);
 			d->numRequestedServices = 0;
 
-			for (tinyxml2::XMLElement* child = services->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
-			{
-				if(!strcmp(child->Name(), "request"))
-				{
+			for (tinyxml2::XMLElement* child = services->FirstChildElement(); child != NULL; child = child->NextSiblingElement()) {
+				if(!strcmp(child->Name(), "request")) {
 					// 1 (highest) is default priority
 					if(child->QueryIntAttribute("priority", &d->requestedServices[d->numRequestedServices].priority))d->requestedServices[d->numRequestedServices].priority = 1;
 

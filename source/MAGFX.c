@@ -71,13 +71,9 @@ int panelHeightBottom = 280;
 int panelWidthTop = 182;
 int panelWidthBottom = 200;
 u8 panelPixel[4]; // 360 * 182 * 4
-//u8 panelBottom[203840]; // 280 * 182 * 4
 
 void MAGFXDrawPanel(gfxScreen_t screen, bool forceZeroLeftOffset) {
 	if (!panelsDrawn) {
-//		panelLeftOffsetTop = getConfigIntForKey("panelLeftOffsetTop", 0, configTypeTheme);
-
-//		int panelColour = 128;
 		int panelAlpha = (screen == GFX_TOP) ? panelAlphaTop : panelAlphaBottom;
 
 		int panelR = (screen == GFX_TOP) ? panelRTop : panelRBottom;
@@ -109,8 +105,7 @@ void MAGFXDrawPanel(gfxScreen_t screen, bool forceZeroLeftOffset) {
 		if (!forceZeroLeftOffset) {
 			leftOffset = panelLeftOffsetTop;
 		}
-	}
-	else {
+	} else {
 		drawWidth = panelWidthBottom;
 		drawHeight = panelHeightBottom;
 	}
@@ -164,49 +159,3 @@ void drawDisk(char * text) {
 	rgbColour * dark = darkTextColour();
 	MADrawText(GFX_BOTTOM, GFX_LEFT, diskX - 32, (320/2)-(len/2), text, &MAFontRobotoRegular16, dark->r, dark->g, dark->b);
 }
-
-
-//u8 * MAGFXScaleSprite(u8* spriteData, u8* newSpriteData, u16 width, u16 height, int scaleFactor, bool alpha) {
-//	int sourcePos = 0;
-//	int destPos = 0;
-//	int len = alpha ? 4 : 3;
-//	int lineCount = 0;
-//	int lineSize = height * len;
-//	int newLineSize = lineSize * scaleFactor;
-//	int start = 0;
-//	int count;
-//
-//	//While there are still lines left to process
-//	while (lineCount < width) {
-//		//Repeat scaleFactor times
-//		for (count=0; count<scaleFactor; count++) {
-//			//Start at the source position in the current line, plus all the previous lines
-//			start = sourcePos + (lineSize * lineCount);
-//			//Copy one pixel to the end of the new data
-//			memcpy(&newSpriteData[destPos], &spriteData[start], len);
-//			//Move to the next pixel in the destination (but not the source - the same one might need to be drawn again)
-//			destPos += len;
-//		}
-//
-//		//That pixel has been drawn enough times for the line. Move to the next pixel
-//		sourcePos += len;
-//
-//		//If the source position is now off the end of a line...
-//		if (sourcePos >= lineSize) {
-//			//Move back to the beginning of the line
-//			sourcePos = 0;
-//			//Move up a line
-//			lineCount++;
-//
-//			//Repeat scaleFactor-1 times
-//			for (count=0; count<(scaleFactor-1); count++) {
-//				//Copy the whole of the line just completed in the destination to the end of the destination again
-//				memcpy(&newSpriteData[destPos], &newSpriteData[destPos-newLineSize], newLineSize);
-//				//Move to the next line in the destination
-//				destPos += newLineSize;
-//			}
-//		}
-//	}
-//
-//	return newSpriteData;
-//}

@@ -324,8 +324,6 @@ void initWaterMenu() {
 	addSettingsMenuEntry("Top screen water", "Toggle the visibility of the water on the top screen", (u8*)settingsIconWaterVisible_bin, &waterEnabled, &waterMenu, &settingsToggleBool, &waterEnabled, NULL);
 
 	addSettingsMenuEntry("Animated water", "Toggle the animated water effect", (u8*)settingsIconWaterAnimated_bin, &waterAnimated, &waterMenu, &settingsToggleBool, &waterAnimated, NULL);
-
-//	addSettingsMenuEntry("Keys excite water", "Pressing D-Pad keys makes the water excite", (u8*)settingsIconKeysExciteWater_bin, &keysExciteWater, &waterMenu, &settingsToggleBool, &keysExciteWater, NULL);
 }
 
 void cycleRows() {
@@ -438,8 +436,7 @@ void settingsSetMenuStatus(int * status) {
 		if (animatedGrids) {
 			startTransition(transitionDirectionDown, themeSettingsMenu.pagePosition, &themeSettingsMenu);
 		}
-	}
-	else if (*status == menuStatusWaterSettings) {
+	} else if (*status == menuStatusWaterSettings) {
 		initWaterMenu();
 		updateMenuIconPositions(&waterMenu);
 		gotoFirstIcon(&waterMenu);
@@ -447,8 +444,7 @@ void settingsSetMenuStatus(int * status) {
 		if (animatedGrids) {
 			startTransition(transitionDirectionDown, settingsMenu.pagePosition, &settingsMenu);
 		}
-	}
-	else if (*status == menuStatusThemeSettings) {
+	} else if (*status == menuStatusThemeSettings) {
 		initThemeSettingsMenu();
 		updateMenuIconPositions(&themeSettingsMenu);
 		gotoFirstIcon(&themeSettingsMenu);
@@ -456,8 +452,7 @@ void settingsSetMenuStatus(int * status) {
 		if (animatedGrids) {
 			startTransition(transitionDirectionDown, settingsMenu.pagePosition, &settingsMenu);
 		}
-	}
-	else if (*status == menuStatusGridSettings) {
+	} else if (*status == menuStatusGridSettings) {
 		initGridSettingsMenu();
 		updateMenuIconPositions(&gridSettingsMenu);
 		gotoFirstIcon(&gridSettingsMenu);
@@ -465,8 +460,7 @@ void settingsSetMenuStatus(int * status) {
 		if (animatedGrids) {
 			startTransition(transitionDirectionDown, settingsMenu.pagePosition, &settingsMenu);
 		}
-	}
-	else if (*status == menuStatusOpenTitleFiltering) {
+	} else if (*status == menuStatusOpenTitleFiltering) {
 		if (titleLoadPaused) {
 			cancelTitleLoading();
 		}
@@ -482,8 +476,7 @@ void startUpdate() {
 void toggleHansBoot() {
 	if (fileExists("/gridlauncher/hans/hans.3dsx", &sdmcArchive) && fileExists("/gridlauncher/hans/hans.xml", &sdmcArchive)) {
 		hansTitleBoot = !hansTitleBoot;
-	}
-	else {
+	} else {
 		setMenuStatus(menuStatusHansMissingError);
 	}
 }
@@ -519,8 +512,6 @@ void initConfigMenu() {
 
 	addSettingsMenuEntry("Title filtering", "Show or hide system titles from the title launcher and save manager", (u8*)helpIconIgnoredTitles_bin, false, &settingsMenu, &settingsSetMenuStatus, &menuStatusOpenTitleFiltering, NULL);
 
-
-
 	if (fileExists("/gridlauncher/update/mglupdate.3dsx", &sdmcArchive) && fileExists("/gridlauncher/update/index.lua", &sdmcArchive)) {
 		addSettingsMenuEntry("Software update", "Update Gridlauncher to the latest version", (u8*)settingsIconUpdate_bin, false, &settingsMenu, &startUpdate, NULL, NULL);
 
@@ -554,15 +545,13 @@ char * configPathForType(int configType) {
 		char * path = malloc(strlen(configFilePath)+1);
 		strcpy(path, configFilePath);
 		return path;
-	}
-	else if (configType == configTypeTheme) {
+	} else if (configType == configTypeTheme) {
 		char * themePath = currentThemePath();
 		char * filename = malloc(128);
 		sprintf(filename, "%shbltheme.cfg", themePath);
 		free(themePath);
 		return filename;
-	}
-	else {
+	} else {
 		return NULL;
 	}
 }
@@ -570,11 +559,9 @@ char * configPathForType(int configType) {
 configData * configDataForType(int configType) {
 	if (configType == configTypeMain) {
 		return &mainData;
-	}
-	else if (configType == configTypeTheme) {
+	} else if (configType == configTypeTheme) {
 		return &themeData;
-	}
-	else {
+	} else {
 		return NULL;
 	}
 }
@@ -584,8 +571,6 @@ void loadConfigWithType(int configType) {
 	if (!data) {
 		return;
 	}
-
-//	memset(data, 0, sizeof(&data));
 
 	char * configPath = configPathForType(configType);
 	if (configPath == NULL) {
@@ -620,8 +605,7 @@ void loadConfigWithType(int configType) {
 
 			if (strcmp(split2, "translucencyLevel") == 0) {
 				count--;
-			}
-			else {
+			} else {
 				strcpy(data->keys[i], split2);
 
 				split2 = strtok(NULL, "=");
@@ -696,9 +680,6 @@ void saveConfigWithType(int configType) {
 		strncat(out, "|", 1);
 	}
 
-
-//	logInt(configType, "Saving config with type");
-
 	char * configPath = configPathForType(configType);
 	if (configPath == NULL) {
 		return;
@@ -743,17 +724,13 @@ void setConfigString(char* key, char* value, int configType) {
 		}
 	}
 
-	//If the entry already exists in the array, overwrite it
-	if (currentIndex > -1) {
+	if (currentIndex > -1) { //If the entry already exists in the array, overwrite it
 		memset(&(data->keys[currentIndex][0]), 0, 64);
 		memset(&(data->values[currentIndex][0]), 0, 64);
 
 		strcpy(data->keys[currentIndex], key);
 		strcpy(data->values[currentIndex], value);
-	}
-
-	//If the entry does not yet exist in the array, add it
-	else {
+	} else { //If the entry does not yet exist in the array, add it
 		strcpy(data->keys[data->numConfigEntries], key);
 		strcpy(data->values[data->numConfigEntries], value);
 		data->numConfigEntries = data->numConfigEntries + 1;
@@ -798,12 +775,10 @@ bool getConfigBoolForKey(char* key, bool defaultValue, int configType) {
 	if (sValue) {
 		if (strcmp(sValue, "1") == 0) {
 			return true;
-		}
-		else {
+		} else {
 			return false;
 		}
-	}
-	else {
+	} else {
 		return defaultValue;
 	}
 }
@@ -814,8 +789,7 @@ int getConfigIntForKey(char* key, int defaultValue, int configType) {
 	if (sValue) {
 		int iValue = atoi(sValue);
 		return iValue;
-	}
-	else {
+	} else {
 		return defaultValue;
 	}
 }
@@ -825,8 +799,7 @@ char * getConfigStringForKey(char* key, char* defaultValue, int configType) {
 
 	if (sValue) {
 		return sValue;
-	}
-	else {
+	} else {
 		return defaultValue;
 	}
 }

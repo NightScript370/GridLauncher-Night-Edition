@@ -40,16 +40,12 @@ void handleHelpBackButton() {
 			if (animatedGrids) {
 				startTransition(transitionDirectionUp, helpMenu.pagePosition, &helpMenu);
 			}
-		}
-		else if (previousMenuStatus == menuStatusFolders) {
+		} else if (previousMenuStatus == menuStatusFolders) {
 			checkReturnToGrid(&foldersMenu);
-		}
-		else if (previousMenuStatus == menuStatusThemeSelect) {
+		} else if (previousMenuStatus == menuStatusThemeSelect) {
 			checkReturnToGrid(&themesMenu);
 		}
-	}
-
-	else {
+	} else {
 		showingHelpDetails = false;
 	}
 }
@@ -84,8 +80,6 @@ void initHelpMenu() {
 	sprintf(titleTextFull, "Homebrew Grid Launcher %s", currentversion);
 
 	addSettingsMenuEntry("About", "Details of the Homebrew Launcher and the Grid Launcher.", (u8*)helpIconAbout_bin, false, &helpMenu, &showHelpDetails, titleTextFull, "Original homebrew launcher by smealum.\nhttp://smealum.github.io/3ds/\n\nThis grid layout version by mashers.\nhttps://gbatemp.net/members/mashers.366855/");
-
-//	free(titleTextFull);
 
 	addSettingsMenuEntry("Folders", "How to set up subfolders in the launcher.", (u8*)helpIconFolders_bin, false, &helpMenu, &showHelpDetails, foldersHelpTitle, foldersHelpBody);
 
@@ -130,8 +124,7 @@ void drawHelp() {
 		if (alertResult == 0 || alertResult == alertButtonKeyB) {
 			handleHelpBackButton();
 		}
-	}
-	else {
+	} else {
 		drawGrid(&helpMenu);
 		drawBottomStatusBar("Help");
 	}

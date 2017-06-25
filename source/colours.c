@@ -58,26 +58,19 @@ void handleColourSelectMenuSelection() {
 
 	if (selectedEntry == 0) {
 		settingsColour = tintColour();
-	}
-	else if (selectedEntry == 1) {
+	} else if (selectedEntry == 1) {
 		settingsColour = inactiveColour();
-	}
-	else if (selectedEntry == 2) {
+	} else if (selectedEntry == 2) {
 		settingsColour = backgroundColour();
-	}
-	else if (selectedEntry == 3) {
+	} else if (selectedEntry == 3) {
 		settingsColour = waterBottomColour();
-	}
-	else if (selectedEntry == 4) {
+	} else if (selectedEntry == 4) {
 		settingsColour = waterTopColour();
-	}
-	else if (selectedEntry == 5) {
+	} else if (selectedEntry == 5) {
 		settingsColour = darkTextColour();
-	}
-	else if (selectedEntry == 6) {
+	} else if (selectedEntry == 6) {
 		settingsColour = lightTextColour();
-	}
-	else if (selectedEntry == 7) {
+	} else if (selectedEntry == 7) {
 		settingsColour = titleTextColour();
 	}
 
@@ -118,8 +111,6 @@ void addColour(int r, int g, int b, char * key, char * description) {
 }
 
 void initColours() {
-//	memset(colours, 0, sizeof(colours));
-
 	numColours = 0;
 
 	addColour(255, 255, 255, "bgColour", "Background colour");
@@ -216,11 +207,9 @@ void checkRedrawGraphics(rgbColour * changedColour) {
 		toolbarNeedsUpdate = true;
 		statusbarNeedsUpdate = true;
 		alphaImagesDrawn = false;
-	}
-	else if (changedColour == waterTopColour() || changedColour == waterBottomColour()) {
+	} else if (changedColour == waterTopColour() || changedColour == waterBottomColour()) {
 		staticWaterDrawn = false;
-	}
-	else if (changedColour == inactiveColour()) {
+	} else if (changedColour == inactiveColour()) {
 		alphaImagesDrawn = false;
 	}
 }
@@ -362,8 +351,7 @@ void drawTranslucencyAdjust(gfxScreen_t screen) {
 
 	if (screen == GFX_TOP) {
 		aButtonList = &translucencySlidersTop;
-	}
-	else {
+	} else {
 		aButtonList = &translucencySlidersBottom;
 	}
 
@@ -381,8 +369,7 @@ void drawTranslucencyAdjust(gfxScreen_t screen) {
 		addValueToSlider(slider0, translucencyTopBar);
 		addValueToSlider(slider1, translucencyWater);
 		addValueToSlider(slider2, translucencyAppShadow);
-	}
-	else {
+	} else {
 		slider3 = aButtonList->buttons[3];
 		slider4 = aButtonList->buttons[4];
 
@@ -433,9 +420,7 @@ void drawTranslucencyAdjust(gfxScreen_t screen) {
 			translucencyTopBar = new0;
 			translucencyWater = new1;
 			translucencyAppShadow = new2;
-		}
-
-		else {
+		} else {
 			previous3 = slider3->value;
 
 			new3 = updateSliderValue(touchX, touchY, slider3);
@@ -484,8 +469,7 @@ void drawPanelTranslucencyAdjust(gfxScreen_t screen) {
 
 	if (screen == GFX_TOP) {
 		panelTranslucencySliders = &panelTranslucencySlidersTop;
-	}
-	else {
+	} else {
 		panelTranslucencySliders = &panelTranslucencySlidersBottom;
 	}
 
@@ -512,8 +496,7 @@ void drawPanelTranslucencyAdjust(gfxScreen_t screen) {
 		addValueToSlider(slider3, panelGTop);
 		addValueToSlider(slider4, panelBTop);
 		addValueToSlider(slider5, panelLeftOffsetTop);
-	}
-	else {
+	} else {
 		slider1->value = panelAlphaBottom;
 		slider2->value = panelRBottom;
 		slider3->value = panelGBottom;
@@ -524,14 +507,6 @@ void drawPanelTranslucencyAdjust(gfxScreen_t screen) {
 		addValueToSlider(slider3, panelGBottom);
 		addValueToSlider(slider4, panelBBottom);
 	}
-
-	//topSlider->value = panelAlphaTop;
-	//bottomSlider->value = panelAlphaBottom;
-	//topLeftOffsetSlider->value = panelLeftOffsetTop;
-
-	//addValueToSlider(topSlider, panelAlphaTop);
-	//addValueToSlider(bottomSlider, panelAlphaBottom);
-	//addValueToSlider(topLeftOffsetSlider, panelLeftOffsetTop);
 
 	if (!touchesAreBlocked && (hidKeysDown()&KEY_TOUCH || hidKeysHeld()&KEY_TOUCH || hidKeysUp()&KEY_TOUCH)) {
 		touchPosition touch;
@@ -549,14 +524,12 @@ void drawPanelTranslucencyAdjust(gfxScreen_t screen) {
 		int previousR = slider2->value;
 		int previousG = slider3->value;
 		int previousB = slider4->value;
-		//int previousBottom = bottomSlider->value;
 
 		int newTranslucency = updateSliderValue(touchX, touchY, slider1);
 
 		int newR = updateSliderValue(touchX, touchY, slider2);
 		int newG = updateSliderValue(touchX, touchY, slider3);
 		int newB = updateSliderValue(touchX, touchY, slider4);
-		//int newLeftOffset;
 
 		if (screen == GFX_TOP) {
 			int newLeftOffset = updateSliderValue(touchX, touchY, slider5);
@@ -567,21 +540,13 @@ void drawPanelTranslucencyAdjust(gfxScreen_t screen) {
 			panelRTop = newR;
 			panelGTop = newG;
 			panelBTop = newB;
-		}
-		else {
+		} else {
 			panelAlphaBottom = newTranslucency;
 
 			panelRBottom = newR;
 			panelGBottom = newG;
 			panelBBottom = newB;
 		}
-
-		//int newBottom = updateSliderValue(touchX, touchY, bottomSlider);
-
-
-		//panelAlphaTop = newTop;
-		//panelAlphaBottom = newBottom;
-		//panelLeftOffsetTop = newLeftOffset;
 
 		if (newTranslucency != previousTranslucency || newR != previousR || newG != previousG || newB != previousB) {
 			panelsDrawn = false;
@@ -591,11 +556,3 @@ void drawPanelTranslucencyAdjust(gfxScreen_t screen) {
 
 	btnDrawButtonList(panelTranslucencySliders);
 }
-
-
-
-
-
-
-
-

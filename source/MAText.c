@@ -146,22 +146,6 @@ void MADrawText(gfxScreen_t screen, gfx3dSide_t side, int cursorx, int cursory, 
 	while(offset>-1) {
 		uint8_t code = (uint8_t)text[offset];
 
-//		if (code >= 128) {
-//			int bytesnumber=0;
-//			if (code < 224) bytesnumber = 2;
-//			else if (code < 240) bytesnumber = 3;
-//			else if (code < 248) bytesnumber = 4;
-//			uint8_t codetemp = code - 192 - (bytesnumber > 2 ? 32 : 0) - (bytesnumber > 3 ? 16 : 0);
-//			int i;
-//
-//			for (i = 2; i <= bytesnumber; i++) {
-//				offset ++;
-//				uint8_t code2 = text[offset] - 128;
-//				codetemp = codetemp*64 + code2;
-//			}
-//			code = codetemp;
-//		}
-
 		char s[8];
 		memset(s, 0, 8);
 		sprintf(s, "%u\n", code);
@@ -200,13 +184,6 @@ bool charIsNewline(char * c) {
 }
 
 int MADrawTextWrap(gfxScreen_t screen, gfx3dSide_t side, int cursorx, int cursory, char * text, MAFont * font, int red, int green, int blue, int maxWidth, int maxLines) {
-
-
-
-//	text = "pokémon Ω ";
-//
-//	MADrawText(screen, side, cursorx, cursory, text, font, red, green, blue);
-//	return;
 
 	//If no maximum width was specified, just draw the text
 	if (maxWidth < 1) {
@@ -255,9 +232,7 @@ int MADrawTextWrap(gfxScreen_t screen, gfx3dSide_t side, int cursorx, int cursor
 		memset(c, 0, 1);
 		strncpy(c, &text[i], 1);
 
-
-		//We have reached a newline character
-		if (charIsNewline(c)) {
+		if (charIsNewline(c)) { //We have reached a newline character
 			int currentWordEndPosition = i;
 			int currentWordLength = currentWordEndPosition - currentWordStartPosition;
 			char currentWord[maxWordLen];
@@ -272,21 +247,14 @@ int MADrawTextWrap(gfxScreen_t screen, gfx3dSide_t side, int cursorx, int cursor
 			strcpy(newlineWord, "***NEWLINE***");
 			strncpy(words[numWords], newlineWord, maxWordLen);
 			numWords++;
-		}
-
-		//We have reached the end of a word
-		else if (charIsWordBreak(c)) {
-
-//			bool scanToEndOfWord = true;
+		} else if (charIsWordBreak(c)) { //We have reached the end of a word
 
 			//Now scan until the beginning of the next word or the end of the string
 			while (true) {
-				//Go to the next character
-				i++;
+				i++; //Go to the next character
 
 				//If we have reached the end of the string, stop scanning
 				if (i >= numChars) {
-//					scanToEndOfWord = false;
 					break;
 				}
 
@@ -297,41 +265,28 @@ int MADrawTextWrap(gfxScreen_t screen, gfx3dSide_t side, int cursorx, int cursor
 
 				//If we have reached a non word break character, stop scanning
 				if (!charIsWordBreak(c2)) {
-//					scanToEndOfWord = false;
 					break;
 				}
 			}
 
-			//Get the index of the character and store it as current word end position
-			int currentWordEndPosition = i;
+			int currentWordEndPosition = i; //Get the index of the character and store it as current word end position
 
-			//Calculate the length of the current word
-			int currentWordLength = currentWordEndPosition - currentWordStartPosition;
+			int currentWordLength = currentWordEndPosition - currentWordStartPosition; //Calculate the length of the current word
 
 			char currentWord[maxWordLen];
 			memset(currentWord, 0, maxWordLen);
 			strncpy(currentWord, &text[currentWordStartPosition], currentWordLength);
 
-//			strcat(out, currentWord);
-//			strcat(out, "|");
-
-			//Copy the word to the words array
-			strncpy(words[numWords], currentWord, maxWordLen);
+			strncpy(words[numWords], currentWord, maxWordLen); //Copy the word to the words array
 
 			//Prepare to start scanning the next word
 			numWords++;
 			currentWordStartPosition = i;
-		}
+		} else { //We have not yet reached the end of a word
+			i++; //Go to the next character
 
-		//We have not yet reached the end of a word
-		else {
-			//Go to the next character
-			i++;
-
-			//Last word - this is pretty much the same code as above, so needs to be abstracted to a function to save repetition (later!)
-			if (i >= numChars) {
-				//Get the index of the character and store it as current word end position
-				int currentWordEndPosition = i;
+			if (i >= numChars) { //Last word - this is pretty much the same code as above, so needs to be abstracted to a function to save repetition (later!)
+				int currentWordEndPosition = i; //Get the index of the character and store it as current word end position
 
 				//Calculate the length of the current word
 				int currentWordLength = currentWordEndPosition - currentWordStartPosition;
@@ -339,9 +294,6 @@ int MADrawTextWrap(gfxScreen_t screen, gfx3dSide_t side, int cursorx, int cursor
 				char currentWord[maxWordLen];
 				memset(currentWord, 0, maxWordLen);
 				strncpy(currentWord, &text[currentWordStartPosition], currentWordLength);
-
-//				strcat(out, currentWord);
-//				strcat(out, "|");
 
 				strncpy(words[numWords], currentWord, maxWordLen);
 
@@ -364,98 +316,66 @@ int MADrawTextWrap(gfxScreen_t screen, gfx3dSide_t side, int cursorx, int cursor
 			continue;
 		}
 
-		//Calculate the width of the word about to be drawn
-		int currentWordWidth = MATextWidthInPixels(currentWord, font);
+		int currentWordWidth = MATextWidthInPixels(currentWord, font); //Calculate the width of the word about to be drawn
 
-		//Work out how much space is left on the current line
-		int availableWidthForCurrentWord = maxWidth - (cursory - initialy);
+		int availableWidthForCurrentWord = maxWidth - (cursory - initialy); //Work out how much space is left on the current line
 
-		//If there are more words to draw after this one
-		if (i < numWords-1) {
+		if (i < numWords-1) { //If there are more words to draw after this one
 			//Copy the next word from the array
-			char nextWord[maxWordLen]; // = new char[sNextWord.length() + 1];
+			char nextWord[maxWordLen];
 			memset(nextWord, 0, maxWordLen);
 			strncpy(nextWord, words[i+1], maxWordLen);
 
-			//Calculate the width of the next word
-			int nextWordWidth = MATextWidthInPixels(nextWord, font);
+			int nextWordWidth = MATextWidthInPixels(nextWord, font); //Calculate the width of the next word
 
-			//Calculate space available for the next word
-			int availableWidthForNextWord = availableWidthForCurrentWord - currentWordWidth;
+			int availableWidthForNextWord = availableWidthForCurrentWord - currentWordWidth; //Calculate space available for the next word
 
-			//If the next word will fit on this line
-			if (nextWordWidth <= availableWidthForNextWord) {
+			if (nextWordWidth <= availableWidthForNextWord) { //If the next word will fit on this line
 				//Draw the current word and move the cursor along ready to draw the next word on the next cycle of the loop
 				MADrawText(screen, side, cursorx, cursory, currentWord, font, red, green, blue);
 				cursory += currentWordWidth;
-			}
-
-			//If the next word will not fit on this line
-			else {
-				//If there is no restriction on the number of lines, or if we have not yet reached the last line
-				if (maxLines < 1 || currentline < maxLines) {
+			} else { //If the next word will not fit on this line
+				if (maxLines < 1 || currentline < maxLines) { //If there is no restriction on the number of lines, or if we have not yet reached the last line
 					MADrawText(screen, side, cursorx, cursory, currentWord, font, red, green, blue);
 					cursory = initialy;
 					cursorx -= lineHeight;
 					currentline++;
-				}
-
-				//If there are no more lines left
-				else {
+				} else { //If there are no more lines left
 					//Create the minimum truncated version of the next word (its first letter plus ellipses)
 					char minimumTruncatedNextWord[5];
 					memset(minimumTruncatedNextWord, 0, 5);
 					strncpy(minimumTruncatedNextWord, nextWord, 1);
 					strcat(minimumTruncatedNextWord, "...");
 
-					//Get the width of the minimum truncated next word
-					int minimumTruncatedNextWordWidth = MATextWidthInPixels(minimumTruncatedNextWord, font);
+					int minimumTruncatedNextWordWidth = MATextWidthInPixels(minimumTruncatedNextWord, font); //Get the width of the minimum truncated next word
 
-					//If the minimum truncated next word will fit
-					if (minimumTruncatedNextWordWidth <= availableWidthForNextWord) {
+					if (minimumTruncatedNextWordWidth <= availableWidthForNextWord) { //If the minimum truncated next word will fit
 						//Draw the current word
 						MADrawText(screen, side, cursorx, cursory, currentWord, font, red, green, blue);
 						cursory += currentWordWidth;
 
-						//Truncate the next word so it will fit on the line with ellipses
-						truncateTextToFitMaxWidth(nextWord, availableWidthForNextWord, font, false);
+						truncateTextToFitMaxWidth(nextWord, availableWidthForNextWord, font, false); //Truncate the next word so it will fit on the line with ellipses
 
-						//Draw the next word
-						MADrawText(screen, side, cursorx, cursory, nextWord, font, red, green, blue);
+						MADrawText(screen, side, cursorx, cursory, nextWord, font, red, green, blue); //Draw the next word
 
-						//Break since there's no space for any more words
-						break;
-					}
+						break; //Break since there's no space for any more words
+					} else { //Even the minimum truncated next word won't fit on this line, and there isn't a line available below for it to go on.
+						truncateTextToFitMaxWidth(currentWord, availableWidthForCurrentWord, font, true); //Truncate the current word and add ellipses
 
-					//Even the minimum truncated next word won't fit on this line, and there isn't a line available below for it to go on.
-					else {
-						//Truncate the current word and add ellipses
-						truncateTextToFitMaxWidth(currentWord, availableWidthForCurrentWord, font, true);
+						MADrawText(screen, side, cursorx, cursory, currentWord, font, red, green, blue); //Draw the truncated current word
 
-						//Draw the truncated current word
-						MADrawText(screen, side, cursorx, cursory, currentWord, font, red, green, blue);
-
-						//Break, since there's not space for any more words
-						break;
+						break; //Break, since there's not space for any more words
 					}
 				}
 			}
-		}
-
-		//This is the last word
-		else {
-			//If the last word fits, just draw it and we're done
-			if (currentWordWidth <= availableWidthForCurrentWord) {
+		} else { //This is the last word
+			if (currentWordWidth <= availableWidthForCurrentWord) { //If the last word fits, just draw it and we're done
 				MADrawText(screen, side, cursorx, cursory, currentWord, font, red, green, blue);
 				/*
 				 DONE
 				 */
-			}
-
-			//The last word doesn't fit on the current line
-			else {
-				//If there is no restriction on the number of lines, or if we still have lines available
-				if (maxLines < 1 || currentline < maxLines) {
+			} else { //The last word doesn't fit on the current line
+				if (maxLines < 1 || currentline < maxLines) { //If there is no restriction on the number of lines, or if we still have lines available
 					//Move the cursor to the beginning of the next line
 					cursory = initialy;
 					cursorx -= lineHeight;
@@ -471,10 +391,7 @@ int MADrawTextWrap(gfxScreen_t screen, gfx3dSide_t side, int cursorx, int cursor
 					/*
 					 DONE
 					 */
-				}
-
-				//There are no more lines available. Truncate the final word and display it
-				else {
+				} else { //There are no more lines available. Truncate the final word and display it
 					truncateTextToFitMaxWidth(currentWord, availableWidthForCurrentWord, font, false);
 					MADrawText(screen, side, cursorx, cursory, currentWord, font, red, green, blue);
 

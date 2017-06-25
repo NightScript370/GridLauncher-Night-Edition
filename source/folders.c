@@ -11,16 +11,6 @@
 menu_s foldersMenu;
 bool show3DSFolder = true;
 
-//button buttons[1024][sizeof(button)];
-//int buttonCount = 0;
-
-//void folders3DSToggled() {
-//	if (foldersMenu.numEntries > 0) {
-//		foldersMenu.entries[0].hidden = !show3DSFolder;
-//		updateMenuIconPositions(&foldersMenu);
-//	}
-//}
-
 char * currentFolder() {
 	return getConfigStringForKey("currentfolder", "/3ds/", configTypeMain);
 }
@@ -32,8 +22,7 @@ char * currentFolderName() {
 		char * folderName = malloc(strlen("3ds"));
 		strcpy(folderName, "3ds");
 		return folderName;
-	}
-	else {
+	} else {
 		int foldersPathLen = strlen(foldersPath);
 		int len = strlen(cf)-foldersPathLen;
 		char * folderName = malloc(len);
@@ -43,29 +32,12 @@ char * currentFolderName() {
 	}
 }
 
-//char * folderPathForFolderName(char * folderName) {
-//	if (strcmp(folderName, "3ds") == 0) {
-//		char * folderPath = malloc(strlen("/3ds/"));
-//		strcpy(folderPath, "/3ds/");
-//		return folderPath;
-//	}
-//
-//	char *folderPath = malloc(strlen(foldersPath) + strlen(folderName) + 2);
-//	strcpy(folderPath, foldersPath);
-//	strcat(folderPath, folderName);
-//
-//	strcat(folderPath, "/");
-//
-//	return folderPath;
-//}
-
 void setFolder(char * folderName) {
 	char folderPath[256]; // = folderPathForFolderName(folderName);
 
 	if (strcmp(folderName, "3ds") == 0) {
 		strcpy(folderPath, "/3ds/");
-	}
-	else {
+	} else {
 		strcpy(folderPath, foldersPath);
 		strcat(folderPath, folderName);
 		strcat(folderPath, "/");
@@ -113,8 +85,7 @@ void addFolderToList(char * fullPath, menuEntry_s * me, int folderPathLen) {
 
 	if (strcmp(fullPath, "/3ds") == 0) {
 		strcpy(me->name, "3ds");
-	}
-	else {
+	} else {
 		strcpy(me->name, fullPath+folderPathLen);
 	}
 
@@ -124,7 +95,6 @@ void addFolderToList(char * fullPath, menuEntry_s * me, int folderPathLen) {
 	me->drawFirstLetterOfName = iconNeedsToBeGenerated;
 
 	addMenuEntryCopy(&foldersMenu, me);
-//	foldersMenu.numEntries = foldersMenu.numEntries + 1;
 }
 
 bool foldersLoaded = false;

@@ -136,8 +136,7 @@ float getNeighborAverage(waterEffect_s* we, int k) {
 	float factors=0.0f;
 
 	int i;
-	for(i=k-we->neighborhoodSize; i<k+we->neighborhoodSize; i++)
-	{
+	for(i=k-we->neighborhoodSize; i<k+we->neighborhoodSize; i++) {
 		if(i==k)continue;
 		const int d=i-k;
 		const float f=fabs(1.0f/d); // TODO : better function (gauss ?)
@@ -160,27 +159,23 @@ float evaluateWater(waterEffect_s* we, u16 x) {
 	return we->controlPoints[k]*(1.0f-f)+we->controlPoints[k+1]*f;
 }
 
-void exciteWater(waterEffect_s* we, float v, u16 k, bool absolute)
-{
+void exciteWater(waterEffect_s* we, float v, u16 k, bool absolute) {
 	if(!we || k>=we->numControlPoints)return;
 
-	if(absolute)
-	{
+	if(absolute) {
 		we->controlPoints[k]=v;
 		we->controlPointSpeeds[k]=0.0f;
-	}else we->controlPoints[k]+=v;
+	} else we->controlPoints[k]+=v;
 }
 
-void updateWaterEffect(waterEffect_s* we)
-{
+void updateWaterEffect(waterEffect_s* we) {
 	if(!we)return;
 
 	waterEffect_s tmpwe;
 	copyWaterEffect(&tmpwe, we);
 
 	int k;
-	for(k=0; k<we->numControlPoints; k++)
-	{
+	for(k=0; k<we->numControlPoints; k++) {
 		float rest=getNeighborAverage(&tmpwe, k);
 		we->controlPointSpeeds[k]*=we->dampFactor;
 		we->controlPointSpeeds[k]+=(rest-we->controlPoints[k])*we->springFactor;

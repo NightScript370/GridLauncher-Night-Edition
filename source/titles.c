@@ -590,7 +590,7 @@ void updateTitleMenu(titleBrowser_s * aTitleBrowser, menu_s * aTitleMenu, char *
 		titleThreadNeedsRelease = true;
 
 		svcCreateEvent(&titleLoadThreadRequest,0);
-        titleLoadThread = threadCreate(titleLoadThreadFunction, 0, STACKSIZE/4, 0x3f, 0, true); 
+		titleLoadThread = threadCreate(titleLoadThreadFunction, 0, STACKSIZE/4, 0x3f, 0, true); 
 		if (titleLoadThread != NULL) { 
 			svcSignalEvent(titleLoadThreadRequest);
 		}

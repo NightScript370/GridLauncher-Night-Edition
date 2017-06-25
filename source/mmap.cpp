@@ -28,11 +28,11 @@ memorymap_t* loadMemoryMap(char* path)
 {
 	if(!path)return NULL;
 
-    XMLDocument doc;
-    if(doc.LoadFile(path))return NULL;
+	XMLDocument doc;
+	if(doc.LoadFile(path))return NULL;
 
-    memorymap_header_t header;
-    XMLElement* header_element = doc.FirstChildElement("header");
+	memorymap_header_t header;
+	XMLElement* header_element = doc.FirstChildElement("header");
 	if(header_element)
 	{
 		header.num = getXmlUnsignedInt(header_element->FirstChildElement("num"));
@@ -52,9 +52,9 @@ memorymap_t* loadMemoryMap(char* path)
 
 	ret->header = header;
 
-    XMLElement* map = doc.FirstChildElement("map");
-    if(map)
-    {
+	XMLElement* map = doc.FirstChildElement("map");
+	if(map)
+	{
 		u32 i = 0;
 
 		for (tinyxml2::XMLElement* child = map->FirstChildElement(); child != NULL && i < header.num; child = child->NextSiblingElement())
@@ -70,9 +70,9 @@ memorymap_t* loadMemoryMap(char* path)
 		}
 
 		if(i == header.num) return ret;
-    }
+	}
 
-    free(ret);
+	free(ret);
 
-    return NULL;
+	return NULL;
 }

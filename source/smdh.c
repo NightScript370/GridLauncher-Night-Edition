@@ -13,22 +13,9 @@ static inline void putPixel565(u8* dst, u8 x, u8 y, u16 v) {
 	dst[((47-y)+x*48)*3+2]=((v>>11)&0x1F)<<3;
 }
 
-static inline void extractSmdhField(uint8_t *out, const uint16_t *in, size_t len) {
-	memset(out, 0, len);
-	utf16_to_utf8(out, in, len);
-}
-
 int extractSmdhData(smdh_s* s, char* name, char* desc, char* auth, u8* iconData) {
 	if(!s)return -1;
 	if(s->header.magic!=0x48444D53)return -2;
-
-	//get system language, default to english
-	u8 language = 1;
-	if(CFGU_GetSystemLanguage(&language))language = 1;
-
-	if(name)extractSmdhField((uint8_t *)name, s->applicationTitles[language].shortDescription, 0x40);
-	if(desc)extractSmdhField((uint8_t *)desc, s->applicationTitles[language].longDescription, 0x80);
-	if(auth)extractSmdhField((uint8_t *)auth, s->applicationTitles[language].publisher, 0x40);
 
 	if(name)unicodeToChar(name, s->applicationTitles[1].shortDescription, 0x40);
 	if(desc)unicodeToChar(desc, s->applicationTitles[1].longDescription, 0x80);

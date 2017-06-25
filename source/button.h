@@ -53,21 +53,14 @@ bool btnTouchWithin(int touchX, int touchY, button * aButton);
 void btnCheckHighlight(int touchX, int touchY, button * aButton);
 void btnTopJustify(button * aButton);
 void btnRightJustify(button * aButton);
-//void btnCentreHorizontally(button * aButton);
 void btnCentreVertically(button * aButton);
 void btnSetButtonType(button * aButton, int type);
 int updateSliderValue(int touchX, int touchY, button * slider);
-//void btnConfigureButtonForGrid(button * aButton, int * x, int * y, char * shortText1, char * shortText2, char * longText);
 void btnAddButtonToButtonList(button * aButton, buttonList *aButtonList);
 void btnListCheckHighlight(buttonList * aButtonList, int touchX, int touchY);
 void btnListCheckRunCallback(buttonList * aButtonList, int touchX, int touchY);
 void btnRunCallback(button * aButton);
 void btnCheckRunCallback(button * aButton, int touchX, int touchY);
 void btnListUnHighlight(buttonList * aButtonList);
-//void btnListUnSelect(buttonList * aButtonList);
-//void btnListCheckSelected(buttonList * aButtonList);
 void btnDrawButtonList(buttonList * aButtonList);
 button * btnButtonInListWithTag(buttonList * aButtonList, int tag);
-
-
-

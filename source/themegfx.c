@@ -98,8 +98,6 @@ bool loadThemeImage(char * themePath, char * filename, char * description, int e
 
 	aThemeImage->spriteData = NULL;
 
-//	free(aThemeImage->spriteData);
-
 	if (!fileExists(path, &sdmcArchive)) {
 		return false;
 	}
@@ -112,8 +110,7 @@ bool loadThemeImage(char * themePath, char * filename, char * description, int e
 			sprintf(error, "%s must be %dx%d pixels", description, expectedWidth, expectedHeight);
 			logText(error);
 			return false;
-		}
-		else {
+		} else {
 			u8 * out = process_png_file();
 
 			if (out) {
@@ -123,8 +120,7 @@ bool loadThemeImage(char * themePath, char * filename, char * description, int e
 					aThemeImage->spriteData = masked;
 					free(out);
 					aThemeImage->hasAlpha = true;
-				}
-				else {
+				} else {
 					aThemeImage->spriteData = out;
 					aThemeImage->hasAlpha = (bytesPerPixel==4);
 				}
@@ -135,13 +131,11 @@ bool loadThemeImage(char * themePath, char * filename, char * description, int e
 				aThemeImage->h = expectedHeight;
 
 				return true;
-			}
-			else {
+			} else {
 				return false;
 			}
 		}
-	}
-	else {
+	} else {
 		return false;
 	}
 }
@@ -197,8 +191,7 @@ void initThemeImages() {
 		bool loadSuccess = loadThemeImage(themePath, progressWheelFrameFilename, "Progress wheel frame", 36, 36, NULL, frame, progressWheelImages);
 		if (loadSuccess) {
 			numProgressWheelImages++;
-		}
-		else {
+		} else {
 			break;
 		}
 	}
@@ -225,8 +218,7 @@ void loadSplashImages() {
 void drawThemeImageCheckAlpha(u8 * image, gfxScreen_t screen, int x, int y, int w, int h, bool hasAlpha) {
 	if (hasAlpha) {
 		gfxDrawSpriteAlphaBlend(screen, GFX_LEFT, image, w, h, x, y);
-	}
-	else {
+	} else {
 		gfxDrawSprite(screen, GFX_LEFT, image, w, h, x, y);
 	}
 }
