@@ -267,22 +267,18 @@ const char* StrPair::GetStr()
 					// LF-CR becomes LF
 					if ( *(p+1) == LF ) {
 						p += 2;
-					}
-					else {
+					} else {
 						++p;
 					}
 					*q++ = LF;
-				}
-				else if ( (_flags & NEEDS_NEWLINE_NORMALIZATION) && *p == LF ) {
+				} else if ( (_flags & NEEDS_NEWLINE_NORMALIZATION) && *p == LF ) {
 					if ( *(p+1) == CR ) {
 						p += 2;
-					}
-					else {
+					} else {
 						++p;
 					}
 					*q++ = LF;
-				}
-				else if ( (_flags & NEEDS_ENTITY_PROCESSING) && *p == '&' ) {
+				} else if ( (_flags & NEEDS_ENTITY_PROCESSING) && *p == '&' ) {
 					// Entities handled by tinyXML2:
 					// - special entities in the entity table [in/out]
 					// - numeric character reference [in]
@@ -297,16 +293,14 @@ const char* StrPair::GetStr()
 							*q = *p;
 							++p;
 							++q;
-						}
-						else {
+						} else {
 							TIXMLASSERT( 0 <= len && len <= buflen );
 							TIXMLASSERT( q + len <= adjusted );
 							p = adjusted;
 							memcpy( q, buf, len );
 							q += len;
 						}
-					}
-					else {
+					} else {
 						bool entityFound = false;
 						for( int i = 0; i < NUM_ENTITIES; ++i ) {
 							const Entity& entity = entities[i];
@@ -326,8 +320,7 @@ const char* StrPair::GetStr()
 							++q;
 						}
 					}
-				}
-				else {
+				} else {
 					*q = *p;
 					++p;
 					++q;
@@ -377,17 +370,13 @@ void XMLUtil::ConvertUTF32ToUTF8( unsigned long input, char* output, int* length
 
 	if (input < 0x80) {
 		*length = 1;
-	}
-	else if ( input < 0x800 ) {
+	} else if ( input < 0x800 ) {
 		*length = 2;
-	}
-	else if ( input < 0x10000 ) {
+	} else if ( input < 0x10000 ) {
 		*length = 3;
-	}
-	else if ( input < 0x200000 ) {
+	} else if ( input < 0x200000 ) {
 		*length = 4;
-	}
-	else {
+	} else {
 		*length = 0;	// This code won't convert this correctly anyway.
 		return;
 	}
@@ -471,8 +460,7 @@ const char* XMLUtil::GetCharacterRef( const char* p, char* value, int* length )
 				mult *= 16;
 				--q;
 			}
-		}
-		else {
+		} else {
 			// Decimal.
 			const char* q = p+2;
 			if ( !(*q) ) {

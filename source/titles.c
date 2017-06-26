@@ -376,10 +376,7 @@ void populateTitleMenu(menu_s* aTitleMenu, titleBrowser_s *tb, bool filter, bool
 		int count = tl->num;
 
 		for (titleNum = 0; titleNum < count; titleNum++) {
-//			MADrawText(GFX_TOP, GFX_LEFT, 0, 0, "Loading", &MAFontRobotoRegular10, 255, 255, 255);
-
 			while (titleLoadPaused) {
-//				MADrawText(GFX_TOP, GFX_LEFT, 15, 0, "Paused", &MAFontRobotoRegular10, 255, 255, 255);
 				svcSleepThread(1000000000ULL);
 
 				if (titleLoadCancelled) {
@@ -423,8 +420,6 @@ void populateTitleMenu(menu_s* aTitleMenu, titleBrowser_s *tb, bool filter, bool
 			me.bannerImagePath[0] = '\0';
 
 			addTitleBannerImagePathToMenuEntry(&me, aTitle.title_id);
-//			addTitleBannerImagePathToMenuEntry(&me, 1125899907535104);
-
 
 			/*
 			If adding the title for the inserted cart, set its isRegionFreeEntry flag.
@@ -449,18 +444,15 @@ void populateTitleMenu(menu_s* aTitleMenu, titleBrowser_s *tb, bool filter, bool
 			if (setFilterTicks) {
 				if (titleIgnored(aTitle.title_id)) {
 					me.showTick = NULL;
-				}
-				else {
+				} else {
 					me.showTick = &trueBool;
 				}
-			}
-			else {
+			} else {
 				me.showTick = NULL;
 			}
 
 			addMenuEntryCopy(aTitleMenu, &me);
 
-//				titleMenu->numEntries = titleMenu->numEntries + 1;
 			updateMenuIconPositions(aTitleMenu);
 
 			if (titleLoadCancelled) {
@@ -471,27 +463,6 @@ void populateTitleMenu(menu_s* aTitleMenu, titleBrowser_s *tb, bool filter, bool
 
 	updateMenuIconPositions(aTitleMenu);
 }
-
-//titleInfo_s* getTitleWithID(titleBrowser_s* tb, u64 tid) {
-//	int i;
-//	for(i=0; i<3; i++) {
-//		const titleList_s* tl = &tb->lists[i];
-//		titleInfo_s *titles = tl->titles;
-//
-//		int titleNum;
-//		int count = tl->num;// sizeof(titles) / sizeof(titleInfo_s);
-//
-//		for (titleNum = 0; titleNum < count; titleNum++) {
-//			titleInfo_s * aTitle = &titles[titleNum];
-//			if (aTitle->title_id == tid) {
-//				return aTitle;
-//			}
-//		}
-//
-//	}
-//
-//	return NULL;
-//}
 
 Handle titleLoadThreadRequest; 
 Thread titleLoadThread;
@@ -521,7 +492,6 @@ void cancelTitleLoading() {
 	titleLoadPaused = false;
 	titleMenuInitialLoadDone = false;
 	titlemenuIsUpdating = false;
-//	svcSignalEvent(titleLoadThreadRequest);
 }
 
 void titleLoadFunction() {
@@ -529,11 +499,7 @@ void titleLoadFunction() {
 	clearMenuEntries(reloadTitleMenu);
 	populateTitleMenu(reloadTitleMenu, reloadTitleBrowser, filterTitlesWhenLoading, forceHideRegionFreeWhenLoading, populateFilterTicksWhenLoading);
 
-	if (titleLoadCancelled) {
-//		logText("Returned from cancelled populate function");
-	}
-	else {
-//		logText("Title load completed");
+	if (!titleLoadCancelled) {
 		titlemenuIsUpdating = false;
 		titleMenuInitialLoadDone = true;
 	}
@@ -546,11 +512,8 @@ void titleLoadThreadFunction(void *arg) {
 
 		titleLoadFunction();
 
-//		logText("Returned from titleLoadFunction");
-
 		if (titleLoadCancelled) {
 			titleLoadCancelled = false;
-//			logText("Cancelled");
 		}
 
 		svcExitThread();
@@ -593,12 +556,10 @@ void updateTitleMenu(titleBrowser_s * aTitleBrowser, menu_s * aTitleMenu, char *
 		titleLoadThread = threadCreate(titleLoadThreadFunction, 0, STACKSIZE/4, 0x3f, 0, true); 
 		if (titleLoadThread != NULL) { 
 			svcSignalEvent(titleLoadThreadRequest);
-		}
-		else {
+		} else {
 			titleLoadFunction();
 		}
-	}
-	else {
+	} else {
 		drawDisk("Loading titles");
 		gfxFlip();
 		titleLoadFunction();
@@ -608,8 +569,7 @@ void updateTitleMenu(titleBrowser_s * aTitleBrowser, menu_s * aTitleMenu, char *
 void toggleTitleFilter(menuEntry_s *me, menu_s * m) {
 	if (me->showTick == NULL) {
 		me->showTick = &trueBool;
-	}
-	else {
+	} else {
 		me->showTick = NULL;
 	}
 }
@@ -621,6 +581,3 @@ void createTitleInfoFromTitleID(u64 title_id, u8 mediaType, titleInfo_s *info) {
 	info->title_id = title_id;
 	info->mediatype = mediaType;
 }
-
-
-

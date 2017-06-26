@@ -558,8 +558,8 @@ int main(int argc, char *argv[]) {
 
 	u8* framebuf_top = gfxGetFramebuffer(GFX_TOP, GFX_LEFT, NULL, NULL);
 	u8* framebuf_bot = gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
-	memset(framebuf_top, 0, 400 * 240 * 3); //clear the screen to black
-	memset(framebuf_bot, 0, 320 * 240 * 3); //ensures no graphical glitching shows.
+	memset(framebuf_top, 0, sizeof(framebuf_top)); //clear the screen to black
+	memset(framebuf_bot, 0, sizeof(framebuf_bot)); //ensures no graphical glitching shows.
 
 	gfxFlip();
 
@@ -781,15 +781,15 @@ int main(int argc, char *argv[]) {
 		updateWater();
 
 		if(hbmenu_state == HBMENU_NETLOADER_ACTIVE){
-			if(hidKeysDown()&KEY_B){
+			if(hidKeysDown()&KEY_B) {
 				netloader_deactivate();
 				hbmenu_state = HBMENU_DEFAULT;
-			}else{
+			} else {
 				int rc = netloader_loop();
 				if(rc > 0) {
 					netloader_boot = true;
 					break;
-				}else if(rc < 0){
+				} else if(rc < 0) {
 					hbmenu_state = HBMENU_NETLOADER_ERROR;
 				}
 			}
