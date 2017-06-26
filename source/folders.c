@@ -33,7 +33,7 @@ char * currentFolderName() {
 }
 
 void setFolder(char * folderName) {
-	char folderPath[256]; // = folderPathForFolderName(folderName);
+	char folderPath[256];
 
 	if (strcmp(folderName, "3ds") == 0) {
 		strcpy(folderPath, "/3ds/");

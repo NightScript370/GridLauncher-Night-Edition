@@ -551,15 +551,13 @@ void enterNetloader() {
 int main(int argc, char *argv[]) {
 	srvInit();
 	aptInit();
-	gfxInitDefault();
+	gfxInit(GSP_BGR8_OES, GSP_BGR8_OES, false);
 	hidInit();
 
 	hidScanInput();
 
-	u8* framebuf_top;
-	u8* framebuf_bot;
-	framebuf_top = gfxGetFramebuffer(GFX_TOP, GFX_LEFT, NULL, NULL);
-	framebuf_bot = gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
+	u8* framebuf_top = gfxGetFramebuffer(GFX_TOP, GFX_LEFT, NULL, NULL);
+	u8* framebuf_bot = gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
 	memset(framebuf_top, 0, 400 * 240 * 3); //clear the screen to black
 	memset(framebuf_bot, 0, 320 * 240 * 3); //ensures no graphical glitching shows.
 
@@ -578,7 +576,7 @@ int main(int argc, char *argv[]) {
 	unsigned long long int delayNs = 0;
 
 	if (!netloaderShortcut) {
-		Result r = csndInit();//start Audio Lib
+		Result r = csndInit(); //start Audio Lib
 		audioActive = (r == 0);
 
 		int bootAttempts = getConfigIntForKey("bootAttempts", 0, configTypeMain);

@@ -40,8 +40,7 @@ void initMetadata(executableMetadata_s* em)
 	memset(em->servicesThatMatter, 0x00, sizeof(em->servicesThatMatter));
 }
 
-Result scan3dsx(char* path, char** patterns, int num_patterns, u32* sectionSizes, bool* patternsFound)
-{
+Result scan3dsx(char* path, char** patterns, int num_patterns, u32* sectionSizes, bool* patternsFound) {
 	if(!path)return -1;
 
 	FILE* f = fopen(path, "rb");

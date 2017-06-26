@@ -226,24 +226,24 @@ int bootApp(char* executablePath, executableMetadata_s* em, char* arg)
 				getBestProcess_2x(em->sectionSizes, (bool*)em->servicesThatMatter, NUM_SERVICESTHATMATTER, out, 4, &out_len);
 
 				// temp : check if we got all the services we want
-				if(em->servicesThatMatter[0] <= out[0].capabilities[0] && em->servicesThatMatter[1] <= out[0].capabilities[1] && em->servicesThatMatter[2] <= out[0].capabilities[2] && em->servicesThatMatter[3] <= out[0].capabilities[3] && em->servicesThatMatter[4] <= out[0].capabilities[4])
-				{
-					targetProcessId = out[0].processId;
-				}else{
+				if(em->servicesThatMatter[0] <= out[0].capabilities[0] &&
+				   em->servicesThatMatter[1] <= out[0].capabilities[1] &&
+				   em->servicesThatMatter[2] <= out[0].capabilities[2] &&
+				   em->servicesThatMatter[3] <= out[0].capabilities[3] &&
+				   em->servicesThatMatter[4] <= out[0].capabilities[4]) {
+						targetProcessId = out[0].processId;
+				} else {
 					// temp : if we didn't get everything we wanted, we search for the candidate that has as many highest-priority services as possible
 					int i, j;
 					int best_id = 0;
 					int best_sum = 0;
-					for(i=0; i<out_len; i++)
-					{
+					for(i=0; i<out_len; i++) {
 						int sum = 0;
-						for(j=0; j<NUM_SERVICESTHATMATTER; j++)
-						{
+						for(j=0; j<NUM_SERVICESTHATMATTER; j++) {
 							sum += (em->servicesThatMatter[j] == 1) && out[i].capabilities[j];
 						}
 
-						if(sum > best_sum)
-						{
+						if(sum > best_sum) {
 							best_id = i;
 							best_sum = sum;
 						}
@@ -251,7 +251,7 @@ int bootApp(char* executablePath, executableMetadata_s* em, char* arg)
 					targetProcessId = out[best_id].processId;
 				}
 
-			}else if(targetProcessId != -1) targetProcessId = -2;
+			} else if(targetProcessId != -1) targetProcessId = -2;
 		}
 	}
 

@@ -29,19 +29,16 @@ void audio_load(const char *audio, themeSound * aThemeSound){
 		fclose(file);
 		if (aThemeSound->sndbuffer != NULL) {
 			aThemeSound->loaded = true;
-		}
-		else {
+		} else {
 			aThemeSound->loaded = false;
 		}
-	}
-	else {
+	} else {
 		aThemeSound->loaded = false;
 	}
 
 	if (aThemeSound->loaded) {
 		aThemeSound->duration = aThemeSound->sndsize / 88244;
-	}
-	else {
+	} else {
 		aThemeSound->duration = 0;
 	}
 }
@@ -52,8 +49,7 @@ void audioPlay(themeSound * aThemeSound, bool loop) {
 
 	if (loop) {
 		flags = SOUND_FORMAT_16BIT | SOUND_REPEAT;
-	}
-	else {
+	} else {
 		flags = SOUND_FORMAT_16BIT;
 	}
 

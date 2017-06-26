@@ -36,9 +36,6 @@ extern "C" {
 
 extern int logoType;
 
-//#define CONFIG_PATH_MAIN "sdmc:/hbl.cfg"
-//#define CONFIG_PATH_THEME "sdmc:/hbltheme.cfg"
-
 	void setConfigString(char* key, char* value, int configType);
 	void setConfigBool(char* key, bool value, int configType);
 	void setConfigInt(char* key, int value, int configType);
@@ -57,8 +54,6 @@ extern int logoType;
 	void buildThemesList();
 	void setTheme(char * themeName);
 	void randomiseTheme();
-
-//	void drawThemesList();
 
 #ifdef __cplusplus
 }

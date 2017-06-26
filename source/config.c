@@ -250,8 +250,7 @@ void addSettingsMenuEntry(char * name, char * description, u8 * icon, bool * sho
 		for (i=0; i<ENTRY_ICONSIZE; i++) {
 			settingsMenuEntry.iconData[i] = icon[i];
 		}
-	}
-	else {
+	} else {
 		memset(settingsMenuEntry.iconData, 0, ENTRY_ICONSIZE);
 	}
 	settingsMenuEntry.showTick = showTick;

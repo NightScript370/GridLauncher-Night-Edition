@@ -205,8 +205,7 @@ int netloader_init(void) {
 		return -1;
 
 	Result ret = socInit(SOC_buffer, 0x100000);
-	if(ret != 0)
-	{
+	if(ret != 0) {
 		// need to free the shared memory block if something goes wrong
 		socExit();
 		free(SOC_buffer);
@@ -287,20 +286,17 @@ int netloader_activate(void) {
 
 int netloader_deactivate(void) {
 	// close all remaining sockets and allow mainloop to return to main menu
-	if(netloader_listenfd >= 0)
-	{
+	if(netloader_listenfd >= 0) {
 		closesocket(netloader_listenfd);
 		netloader_listenfd = -1;
 	}
 
-	if(netloader_datafd >= 0)
-	{
+	if(netloader_datafd >= 0) {
 		closesocket(netloader_datafd);
 		netloader_datafd = -1;
 	}
 
-	if(netloader_udpfd >= 0)
-	{
+	if(netloader_udpfd >= 0) {
 		closesocket(netloader_udpfd);
 		netloader_udpfd = -1;
 	}
