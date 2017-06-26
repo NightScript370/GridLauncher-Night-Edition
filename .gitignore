@@ -1,4 +1,7 @@
 build/
+*.py
+*.elf
+*.3dsx
 *.exe
 *~
 citra*
