@@ -26,7 +26,7 @@ include $(DEVKITARM)/3ds_rules
 #	 - icon.png
 #	 - <libctru folder>/default_icon.png
 #---------------------------------------------------------------------------------
-TARGET		:=	boot1
+TARGET		:=	boot
 BUILD		:=	build
 SOURCES		:=	source
 DATA		:=	data
