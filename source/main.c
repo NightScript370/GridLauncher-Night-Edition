@@ -47,13 +47,9 @@ bool startRebootProcess = false;
 
 char HansArg[ENTRY_PATHLENGTH+1];
 
-//Handle threadHandle, threadRequest;
-//#define STACKSIZE (4 * 1024)
-
 u32 menuret_enabled = 0;
 
-static enum
-{
+static enum {
 	HBMENU_DEFAULT,
 	HBMENU_TITLESELECT,
 	HBMENU_TITLETARGET_ERROR,
@@ -558,8 +554,8 @@ int main(int argc, char *argv[]) {
 
 	u8* framebuf_top = gfxGetFramebuffer(GFX_TOP, GFX_LEFT, NULL, NULL);
 	u8* framebuf_bot = gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
-	memset(framebuf_top, 0, sizeof(framebuf_top)); //clear the screen to black
-	memset(framebuf_bot, 0, sizeof(framebuf_bot)); //ensures no graphical glitching shows.
+	memset(framebuf_top, 0, 400 * 240 * 3); //clear the screen to black
+	memset(framebuf_bot, 0, 320 * 240 * 3); //ensures no graphical glitching shows.
 
 	gfxFlip();
 

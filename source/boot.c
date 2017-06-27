@@ -34,7 +34,7 @@ typedef struct
 {
 	int processId;
 	bool capabilities[0x10];
-}processEntry_s;
+} processEntry_s;
 
 void (*callBootloader_2x)(Handle file, u32* argbuf, u32 arglength) = (void*)0x00100000;
 void (*callBootloaderNewProcess_2x)(int processId, u32* argbuf, u32 arglength) = (void*)0x00100008;
@@ -84,8 +84,7 @@ bool isNinjhax2(void) {
 	} else return true;
 }
 
-void bootSetTargetTitle(titleInfo_s info)
-{
+void bootSetTargetTitle(titleInfo_s info) {
 	target_title = info;
 	targetProcessId = -2;
 	custom_map = false;
@@ -93,8 +92,7 @@ void bootSetTargetTitle(titleInfo_s info)
 	static char path[256];
 	snprintf(path, 255, "sdmc:/mmap/%08X%08X.xml", (unsigned int)((target_title.title_id >> 32) & 0xffffffff), (unsigned int)(target_title.title_id & 0xffffffff));
 	memorymap_t* _mmap = loadMemoryMap(path);
-	if(_mmap)
-	{
+	if(_mmap) {
 		_mmap->header.processHookTidLow = target_title.title_id & 0xffffffff;
 		_mmap->header.processHookTidHigh = (target_title.title_id >> 32) & 0xffffffff;
 		_mmap->header.mediatype = target_title.mediatype;
@@ -104,14 +102,12 @@ void bootSetTargetTitle(titleInfo_s info)
 	}
 }
 
-int bootApp(char* executablePath, executableMetadata_s* em, char* arg)
-{
+int bootApp(char* executablePath, executableMetadata_s* em, char* arg) {
 	// set argv/argc
 	argbuffer[0] = 0;
 	argbuffer_length = sizeof(argbuffer);
 
-	if (!netloader_boot)
-	{
+	if (!netloader_boot) {
 		argbuffer[0] = 1;
 		snprintf((char*)&argbuffer[1], sizeof(argbuffer) - 4, "sdmc:%s", executablePath);
 	}
@@ -122,35 +118,25 @@ int bootApp(char* executablePath, executableMetadata_s* em, char* arg)
 		if (!netloader_boot)
 			dst += strlen(dst) + 1; // skip first argument
 
-		if(arg && *arg)
-		{
+		if(arg && *arg) {
 
 			char c, *pstr, *str=arg, *endarg = arg+strlen(arg);
 
-			do
-			{
-				do
-				{
+			do {
+				do {
 					c = *str++;
 				} while ((c == ' ' || c == '\t') && str < endarg);
 
 				pstr = str-1;
 
-				if (c == '\"')
-				{
+				if (c == '\"') {
 					pstr++;
 					while(*str++ != '\"' && str < endarg);
-				}
-				else
-				if (c == '\'')
-				{
+				} else if (c == '\'') {
 					pstr++;
 					while(*str++ != '\'' && str < endarg);
-				}
-				else
-				{
-					do
-					{
+				} else {
+					do {
 						c = *str++;
 					} while (c != ' ' && c != '\t' && str < endarg);
 				}
@@ -158,17 +144,12 @@ int bootApp(char* executablePath, executableMetadata_s* em, char* arg)
 				str--;
 
 				if (str == (endarg - 1)) {
-					if(*str == '\"' || *str == '\'')
-					{
+					if(*str == '\"' || *str == '\'') {
 						*(str++) = 0;
-					}
-					else
-					{
+					} else {
 						str++;
 					}
-				}
-				else
-				{
+				} else {
 					*(str++) = '\0';
 				}
 
@@ -181,8 +162,7 @@ int bootApp(char* executablePath, executableMetadata_s* em, char* arg)
 		}
 
 		if(netloader_boot) {
-			while (ptr < netloaded_commandline + netloaded_cmdlen)
-			{
+			while (ptr < netloaded_commandline + netloaded_cmdlen) {
 				int n = strlen(ptr);
 				strcpy(dst, ptr);
 				ptr += n + 1;
@@ -207,7 +187,7 @@ int bootApp(char* executablePath, executableMetadata_s* em, char* arg)
 		hbExit();
 
 		// set argv
-		setArgs_1x(argbuffer, sizeof(argbuffer));
+		setArgs_1x(argbuffer, 0x200*4);
 
 		// override return address to homebrew booting code
 		__system_retAddr = launchFile_1x;

@@ -25,8 +25,7 @@ void gfxDrawSprite(gfxScreen_t screen, gfx3dSide_t side, u8* spriteData, u16 wid
 	heightDrawn-=yOffset;
 
 	int j;
-	for(j=yOffset; j<yOffset+heightDrawn; j++)
-	{
+	for(j=yOffset; j<yOffset+heightDrawn; j++) {
 		memcpy(&fbAdr[((x+xOffset)+(y+j)*fbWidth)*3], &spriteData[((xOffset)+(j)*width)*3], widthDrawn*3);
 	}
 }
@@ -169,8 +168,7 @@ void gfxDrawWave(gfxScreen_t screen, gfx3dSide_t side, u8 rgbColorStart[3], u8 r
 			colorLine[j*3+1]=rgbColorStart[1];
 			colorLine[j*3+2]=rgbColorStart[0];
 		}
-		for(j=0; j<fbHeight; j++)
-		{
+		for(j=0; j<fbHeight; j++) {
 			u16 waveLevel=level+cb(p, j)*amplitude;
 			memcpy(&fbAdr[(waveLevel-width)*3], colorLine, width*3);
 			fbAdr+=fbWidth*3;
