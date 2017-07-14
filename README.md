@@ -22,8 +22,12 @@ Select the "?" icon in the top right corner of the launcher to view help pages. 
 -Robz8: Making a TWL-side app for this.       
 -NightYoshi370/MaorNinja: Making a fork of Gridlauncher to add some stuff from the original HBLauncher and add brand new features.
 
-#### Please see the [README.md from the original launcher](https://github.com/smealum/3ds_hb_menu) for more technical details
+#### How to compile
 
-To compile, you'll need DevkitARM, zlib, 3DS portlibss and libpng.
+Firstly, you'll need to install [DevKitARM](https://devkitpro.org/), [3DS Portlibs](https://github.com/xerpi/3ds_portlibs), zlib and lippng
+Then, you'll need to clone the repo with `git clone https://github.com/maorninja/GridLauncher.git`
+Finally, just say "make" and if it works well, it should compile.
+
+#### Please see the [README.md from the original launcher](https://github.com/smealum/3ds_hb_menu) for more technical details
 
 More developement will be on [Mario Making Mods](http://mariomods.net/thread/120-gridlauncher-2-0#post1047) but there will still be some updates on [GBATemp](https://gbatemp.net/threads/gridlauncher-2-0.474881/)
