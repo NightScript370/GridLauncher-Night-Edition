@@ -18,14 +18,20 @@ Select the "?" icon in the top right corner of the launcher to view help pages. 
 #### Credits
 
 -Smealum: Making the original HBLauncher        
--mashers: Making GridLauncher       
--Robz8: Making a TWL-side app for this.       
--NightYoshi370/MaorNinja: Making a fork of Gridlauncher to add some stuff from the original HBLauncher and add brand new features.
+-GEMISIS : hbmenu 1.0 code               
+-fincs : hbmenu 1.0 code            
+-mtheall : hbmenu 1.0 code            
+-Fluto : hbmenu 1.0 graphics                   
+-Arkhandar : hbmenu 1.0 graphics                  
+-dotjasp : hbmenu 1.0 graphics (regionfree icon)             
+-mashers: Forking hbmenu 1.0 to make GridLauncher              
+-NightYoshi370: Forking Gridlauncher to add a couple of features              
+-Robz8: Making a TWL-side app for this.
 
 #### How to compile
 
-Firstly, you'll need to install [DevKitARM](https://devkitpro.org/), [3DS Portlibs](https://github.com/xerpi/3ds_portlibs), zlib and lippng
-Then, you'll need to clone the repo with `git clone https://github.com/maorninja/GridLauncher.git`
+Firstly, you'll need to install [DevKitARM](https://devkitpro.org/), [3DS Portlibs](https://github.com/xerpi/3ds_portlibs), zlib and lippng            
+Then, you'll need to clone the repo with `git clone https://github.com/maorninja/GridLauncher.git`             
 Finally, just say "make" and if it works well, it should compile.
 
 #### Please see the [README.md from the original launcher](https://github.com/smealum/3ds_hb_menu) for more technical details
