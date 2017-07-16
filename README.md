@@ -1,4 +1,4 @@
-# The Homebrew Launcher
+# GridLauncher
 
 [![Build Status](https://travis-ci.org/maorninja/GridLauncher.svg?branch=master)](https://travis-ci.org/maorninja/GridLauncher)
 
