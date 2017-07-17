@@ -13,44 +13,10 @@
 int currentFrame = 0;
 
 void drawProgressWheel(gfxScreen_t screen, gfx3dSide_t side, int x, int y) {
-//	u8 dest[40*40*4];
-//	MAGFXImageWithRGBAndAlphaMask(colour->r, colour->g, colour->b, wheelFrames[currentFrame], dest, 40, 40);
-//	gfxDrawSpriteAlphaBlend(screen, side, dest, 40, 40, x, y);
 
 	if (themeHasProgressWheel) {
 		drawProgressWheelImage(currentFrame, screen, x, y);
-
-//		switch (currentFrame) {
-//			case 0:
-//				drawThemeImage(themeImageProgressWheelFrame1, screen, x, y);
-//				break;
-//
-//			case 1:
-//				drawThemeImage(themeImageProgressWheelFrame2, screen, x, y);
-//				break;
-//
-//			case 2:
-//				drawThemeImage(themeImageProgressWheelFrame3, screen, x, y);
-//				break;
-//
-//			case 3:
-//				drawThemeImage(themeImageProgressWheelFrame4, screen, x, y);
-//				break;
-//
-//			case 4:
-//				drawThemeImage(themeImageProgressWheelFrame5, screen, x, y);
-//				break;
-//
-//			case 5:
-//				drawThemeImage(themeImageProgressWheelFrame6, screen, x, y);
-//				break;
-//
-//			default:
-//				drawThemeImage(themeImageProgressWheelFrame1, screen, x, y);
-//				break;
-//		}
-	}
-	else {
+	} else {
 		u8 * progressWheelFrame;
 
 		switch (currentFrame) {

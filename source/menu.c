@@ -433,7 +433,7 @@ void initMenu(menu_s* m) {
 //	Menu init
 	m->entries=NULL;
 	m->numEntries=0;
-	m->selectedEntry=0;//indexOfFirstVisibleMenuEntry(m);
+	m->selectedEntry=0;
 	m->scrollLocation=0;
 	m->scrollVelocity=0;
 	m->scrollBarSize=0;
@@ -1624,7 +1624,7 @@ bool updateGrid(menu_s* m) {
 	return false;
 }
 
-#warning Try to get rid of this if possible
+// warning Try to get rid of this if possible
 void handleNonGridToolbarNavigation() {
 	btnListUnHighlight(&toolbarButtons);
 
@@ -1781,9 +1781,7 @@ int drawMenuEntry(menuEntry_s* me, gfxScreen_t screen, bool selected, menu_s *m,
 
 	bool entryIsCart = false;
 
-	/*
-	 Draw the icon on the bottom screen (if necessary)
-	 */
+	// Draw the icon on the bottom screen (if necessary)
 
 	if (me != &gamecardMenuEntry && !me->isTitleEntry) {
 		if (me->isRegionFreeEntry) {
@@ -1828,8 +1826,7 @@ int drawMenuEntry(menuEntry_s* me, gfxScreen_t screen, bool selected, menu_s *m,
 		//Mask whichever icon is going to be drawn (either the game card icon or a homebrew app's icon
 		if (me->isRegionFreeEntry && regionFreeGamecardIn) {
 			MAGFXApplyAlphaMask(gamecardMenuEntry.iconData, (u8*)appiconalphamask_bin, transparentIcon, 48, 48, false);
-		}
-		else {
+		} else {
 			MAGFXApplyAlphaMask(me->iconData, (u8*)appiconalphamask_bin, transparentIcon, 48, 48, false);
 		}
 

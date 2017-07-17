@@ -109,9 +109,6 @@ u8 * process_png_file(void) {
 
 	if (png_get_color_type(png_ptr, info_ptr) == PNG_COLOR_TYPE_RGBA) {
 		bytesPerPixel = 4;
-		//
-		//		logText("[process_file] color_type of input file must be PNG_COLOR_TYPE_RGB");
-		//		return NULL;
 	}
 
 
@@ -126,7 +123,6 @@ u8 * process_png_file(void) {
 
 			png_byte* ptr = &(row[x*bytesPerPixel]);
 
-			//			int offset = (((y*height) + x) * 3);
 			int offset = (moveRight + moveDown) * bytesPerPixel;
 			offset -= bytesPerPixel;
 

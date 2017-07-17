@@ -25,7 +25,6 @@
 #include "settingsIconTranslucencyTop_bin.h"
 #include "settingsIconTranslucencyBottom_bin.h"
 #include "settingsIconLogo_bin.h"
-//#include "settingsIconKeysExciteWater_bin.h"
 #include "settingsIconPanelTop_bin.h"
 #include "settingsIconPanelBottom_bin.h"
 #include "settingsIconPreloadTitles_bin.h"

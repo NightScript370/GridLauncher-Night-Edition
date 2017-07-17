@@ -13,7 +13,6 @@ extern int menuStatusSettings;
 extern int menuStatusHelp;
 extern int menuStatusFolders;
 extern int menuStatusFolderChanged;
-//extern int menuStatusFoldersHelp;
 extern int menuStatusTitleBrowser;
 extern int menuStatusOpenHomeMenuApps;
 extern int menuStatusHomeMenuApps;
@@ -49,7 +48,6 @@ extern int totalRows;
 extern bool alphaImagesDrawn;
 extern bool pageControlPanelsDrawn;
 extern bool menuReloadRequired;
-//extern bool thirdRowVisible;
 extern bool dPadNavigation;
 extern bool animatedGrids;
 
@@ -87,9 +85,6 @@ extern bool randomiseThemeOnWake;
 
 #define ENTRY_BGCOLOR (u8[]){246, 252, 255}
 #define ENTRY_BGCOLOR_SHADOW (u8[]){34, 153, 183}
-
-//#define fptToInt(v) ((v)>>10)
-//#define intToFpt(v) ((v)<<10)
 
 #define transitionDirectionLeft 10
 #define transitionDirectionRight 20
@@ -177,7 +172,6 @@ void scanMenuEntry(menuEntry_s* me);
 
 void setMenuStatus(int status);
 void menuRegionFreeToggled();
-//void toggleThirdRow();
 void toggleTranslucency();
 void loadThemeConfig();
 

@@ -24,7 +24,6 @@
 #include "logText.h"
 #include "colours.h"
 
-//#include "screenshot.h"
 #include "config.h"
 
 #include "MAGFX.h"
