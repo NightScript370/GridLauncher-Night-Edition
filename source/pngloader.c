@@ -35,12 +35,11 @@ bool read_png_file(char* file_name) {
 	/* open file and test for it being a png */
 	FILE *fp = fopen(file_name, "rb");
 	if (!fp) {
-		//		logText("[read_png_file] File could not be opened for reading"); // We don't need to log an error about this
 		return false;
 	}
 
 	fread(header, 1, 8, fp);
-	if (png_sig_cmp(header, 0, 8)) {
+	if (png_sig_cmp(png_byte, 0, 8)) {
 		logText("[read_png_file] File is not recognized as a PNG file");
 		fclose(fp);
 		return false;
