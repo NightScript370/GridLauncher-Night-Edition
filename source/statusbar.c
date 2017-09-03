@@ -44,8 +44,7 @@ bool statusbarNeedsUpdate = true;
 
 u64 lastTimeInSeconds = 0; //Used for calculating if the lid has been shut.
 
-void drawStatusBar(bool wifiStatus, bool charging, int batteryLevel)
-{
+void drawStatusBar(bool wifiStatus, bool charging, int batteryLevel) {
 	if (statusbarNeedsUpdate) {
 		statusbarNeedsUpdate = false;
 		rgbColour * rgb = tintColour();
@@ -101,8 +100,7 @@ void drawStatusBar(bool wifiStatus, bool charging, int batteryLevel)
 		else month = "";
 
 		sprintf(datestring, "%02d:%02d:%02d%s, %02d %s %d", hour, ts->tm_min, ts->tm_sec, ampm, ts->tm_mday, month, ts->tm_year+1900);
-	}
-	else {
+	} else {
 		sprintf(datestring, "%02d:%02d:%02d%s", hour, ts->tm_min, ts->tm_sec, ampm);
 	}
 
@@ -113,21 +111,15 @@ void drawStatusBar(bool wifiStatus, bool charging, int batteryLevel)
 	int textWidth = MATextWidthInPixels(datestring, &MAFontRobotoRegular10);
 	MADrawText(GFX_TOP, GFX_LEFT, 240-20, (400/2) - (textWidth/2), datestring, &MAFontRobotoRegular10, light->r, light->g, light->b);
 
-	if(wifiStatus)
-	{
+	if(wifiStatus) {
 		gfxDrawSpriteAlphaBlend(GFX_TOP, GFX_LEFT, (u8*)wifi_full_bin, 18, 20, 240 - 18, 2);
-	}
-	else
-	{
+	} else {
 		gfxDrawSpriteAlphaBlend(GFX_TOP, GFX_LEFT, (u8*)wifi_none_bin, 18, 20, 240 - 18, 2);
 	}
 
-	if(charging)
-	{
+	if(charging) {
 		gfxDrawSpriteAlphaBlend(GFX_TOP, GFX_LEFT, (u8*)battery_charging_bin, 18, 27, 240 - 18, 400 - 29);
-	}
-	else
-	{
+	} else {
 		gfxDrawSpriteAlphaBlend(GFX_TOP, GFX_LEFT, batteryLevels[batteryLevel], 18, 27, 240 - 18, 400 - 29);
 	}
 }
