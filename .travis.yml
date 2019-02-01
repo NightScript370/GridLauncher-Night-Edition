@@ -1,12 +1,23 @@
-language: c
+os: linux
+sudo: false
+dist: trusty
+
+env:
+  global:
+    - DEVKITPRO=/opt/devkitpro    
+    - DEVKITARM=/opt/devkitpro/devkitARM
+    
+cache:
+  directories:
+    - "$HOME/.local"
+    - "$DEVKITPRO"
 
 before_install:
-  - wget http://sourceforge.net/projects/devkitpro/files/Automated%20Installer/devkitARMupdate.pl
-  - export DEVKITPRO=/home/travis/devkitPro
-  - export DEVKITARM=${DEVKITPRO}/devkitARM
+- curl -L https://github.com/devkitPro/pacman/releases/download/devkitpro-pacman-1.0.1/devkitpro-pacman.deb -o pacman.deb
 
 install:
-  - sudo perl devkitARMupdate.pl  
+  - sudo dpkg -i pacman.deb
+  - sudo dkp-pacman -Sy
   - wget --no-check-certificate https://codeload.github.com/smealum/ctrulib/zip/master -O /tmp/ctrulib.zip
   - unzip /tmp/ctrulib.zip
   - cd ctrulib-master/libctru
