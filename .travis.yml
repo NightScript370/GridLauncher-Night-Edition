@@ -18,14 +18,9 @@ before_install:
 install:
   - sudo dpkg -i pacman.deb
   - sudo dkp-pacman -Sy
-  - sudo dkp-pacman -S 3ds-dev --noconfirm
+  - sudo dkp-pacman -S 3ds-dev libpng-dev zlib1g-dev --noconfirm
   - export DEVKITPRO=/opt/devkitpro
   - export DEVKITARM=${DEVKITPRO}/devkitARM
-  - wget --no-check-certificate https://github.com/xerpi/3ds_portlibs/releases/download/1/portlibs-linux.zip -O /tmp/3ds_portlibs.zip
-  - unzip /tmp/3ds_portlibs.zip
-  - sudo cp -R portlibs ${DEVKITPRO}/
-  - sudo apt-get --assume-yes install libpng-dev
-  - sudo apt-get --assume-yes install zlib1g-dev
 script:
   - echo "Starting compilation"  
   - make  
