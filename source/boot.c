@@ -230,7 +230,7 @@ int bootApp(char* executablePath, executableMetadata_s* em, char* arg) {
 				targetProcessId = out[best_id].processId;
 			}
 
-		} else if(targetProcessId != -1) targetProcessId = -2;
+		} else if(em && targetProcessId != -1) targetProcessId = -2;
 	}
 
 	return 0;
