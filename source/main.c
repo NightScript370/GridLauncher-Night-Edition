@@ -934,7 +934,7 @@ int main(int argc, char *argv[]) {
 		releaseTouchThread();
 	}
 
-	if(!strcmp(me->executablePath, REGIONFREE_PATH) && regionFreeAvailable && !netloader_boot) {
+	if(!strcmp(me->executablePath, REGIONFREE_PATH) && aptGetStatus() != APP_EXITING && regionFreeAvailable && !netloader_boot) {
 		if (hansTitleBoot) {
 			titleInfo_s target_title; 
 			createTitleInfoFromTitleID(me->title_id, me->mediatype, &target_title);
