@@ -732,27 +732,25 @@ void drawMenu(menu_s* m) {
 	}
 
 
-	if (menuStatusIcons == menuStatusIcons) {
-		if (m->numEntries == 1) {
-			char * emptyFolderText = "Empty folder";
-			int len = MATextWidthInPixels(emptyFolderText, &MAFontRobotoRegular16);
-			rgbColour * dark = darkTextColour();
-			MADrawText(GFX_BOTTOM, GFX_LEFT, 110, (320/2)-(len/2), emptyFolderText, &MAFontRobotoRegular16, dark->r, dark->g, dark->b);
+	if (m->numEntries == 1) {
+		char * emptyFolderText = "Empty folder";
+		int len = MATextWidthInPixels(emptyFolderText, &MAFontRobotoRegular16);
+		rgbColour * dark = darkTextColour();
+		MADrawText(GFX_BOTTOM, GFX_LEFT, 110, (320/2)-(len/2), emptyFolderText, &MAFontRobotoRegular16, dark->r, dark->g, dark->b);
 
-			if (transitionFromPage > -1) {
-				drawGrid(NULL);
-			}
-		} else {
-			drawGrid(m);
+		if (transitionFromPage > -1) {
+			drawGrid(NULL);
 		}
-
-		char * cfn = currentFolderName();
-		char title[strlen(cfn) + strlen("Folder: ")];
-		strcpy(title, "Folder: ");
-		strcat(title, cfn);
-		drawBottomStatusBar(title);
-		free(cfn);
+	} else {
+		drawGrid(m);
 	}
+
+	char * cfn = currentFolderName();
+	char title[strlen(cfn) + strlen("Folder: ")];
+	strcpy(title, "Folder: ");
+	strcat(title, cfn);
+	drawBottomStatusBar(title);
+	free(cfn);
 }
 
 void updateMenuIconPositions(menu_s* m) {
