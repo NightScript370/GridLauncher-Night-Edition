@@ -47,7 +47,7 @@ void exitFilesystem(void)
 
 void openSDArchive()
 {
-	FSUSER_OpenArchive(&sdmcArchive, ARCHIVE_SDMC, (FS_Path){PATH_EMPTY, 1, (u8*)""});
+	FSUSER_OpenArchive(&sdmcArchive, ARCHIVE_SDMC, fsMakePath(PATH_EMPTY, ""));
 }
 
 void closeSDArchive()
