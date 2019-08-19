@@ -146,7 +146,7 @@ int populateTitleList(titleList_s* tl)
 			return 1;
 		}
 
-		ret = AM_GetTitleList(NULL, tl->mediatype, num, tmp);
+		ret = AM_GetTitleList(&num, tl->mediatype, num, tmp);
 
 		if(!ret)
 		{
