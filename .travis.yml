@@ -18,7 +18,7 @@ before_install:
 install:
   - sudo dpkg -i pacman.deb
   - sudo dkp-pacman -Sy
-  - sudo dkp-pacman -S 3ds-dev libpng-dev zlib1g-dev --noconfirm
+  - sudo dkp-pacman -S 3ds-dev 3ds-zlib 3ds-libpng --noconfirm
   - export DEVKITPRO=/opt/devkitpro
   - export DEVKITARM=${DEVKITPRO}/devkitARM
 script:
@@ -33,4 +33,3 @@ addons:
     - gcc-4.9
     - g++-4.9
     - libstdc++6
-    - lftp
