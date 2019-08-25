@@ -1,6 +1,6 @@
 # GridLauncher
 
-[![Build Status](https://travis-ci.org/maorninja/GridLauncher.svg?branch=master)](https://travis-ci.org/maorninja/GridLauncher)
+[![Build Status](n)](https://travis-ci.org/NightYoshi370/GridLauncher-Night-Edition)
 
 #### Presentation
 
