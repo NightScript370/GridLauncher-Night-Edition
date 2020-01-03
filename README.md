@@ -36,7 +36,7 @@ Select the "?" icon in the top right corner of the launcher to view help pages. 
 #### How to compile
 
 Firstly, you'll need to install [DevKitARM](https://devkitpro.org/) with the 3DS Portlibs, zlib and lippng            
-Then, you'll need to clone the repo with `git clone https://github.com/maorninja/GridLauncher.git`             
+Then, you'll need to clone the repo with `https://github.com/SuperSaiyajinStackZ/GridLauncher-Night-Edition.git`             
 Finally, run "make" in a terminal instance and if it works well, it should compile.
 
 #### Please see the [README.md from the original launcher](https://github.com/smealum/3ds_hb_menu) for more technical details
